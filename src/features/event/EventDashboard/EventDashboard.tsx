@@ -13,7 +13,7 @@ const EventDashboard: FC<EventDashboardFromProps> = () => {
     {
       id: "1",
       title: "Trip to Tower of London",
-      date: "2018-03-27T11:00:00+00:00",
+      date: "2018-03-27",
       category: "culture",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
@@ -37,7 +37,7 @@ const EventDashboard: FC<EventDashboardFromProps> = () => {
     {
       id: "2",
       title: "Trip to Punch and Judy Pub",
-      date: "2018-03-28T14:00:00+00:00",
+      date: "2018-03-28",
       category: "drinks",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
@@ -61,16 +61,36 @@ const EventDashboard: FC<EventDashboardFromProps> = () => {
   ];
   const [state, setState] = useState<EventDashboardFromState>({
     events: initialevents,
-    isOpen: false
+    isOpen: false,
+    selectedEvent:null
   });
-  const { events, isOpen } = state;
+  const { events, isOpen,selectedEvent } = state;
 
-  const handleIsOpenToggle = () => {
+/*  const handleIsOpenToggle = () => {
     setState(prevState => ({
       ...prevState,
       isOpen: !prevState.isOpen
     }));
   };
+*/
+  const handleCreateFormOpen =() =>{
+     setState(prevState =>({
+       ...prevState,
+        isOpen:true,
+        selectedEvent:null
+     }))
+  }
+
+
+const handleFormCancel = () => {
+  setState(prevState =>({
+    ...prevState,
+     isOpen:false
+    
+  }))
+}
+
+
   const handleCreateEvent = (newEvent: Event) => {
     newEvent.id = cuid();
     console.log(newEvent.id);
@@ -82,17 +102,54 @@ const EventDashboard: FC<EventDashboardFromProps> = () => {
     }));
     
   };
+  const handleUpdateEvent =(updatedevent:Event) =>{
+   setState(prevState =>({
+      ...prevState,
+       events: events.map(event =>{
+          if(event.id ===updatedevent.id){
+             return {...updatedevent}
+          }
+          else{
+             return event;
+          }
+       }),
+       isOpen:false,
+       selectedEvent:null
+
+    }));
+    
+  }
+  const handleDeleteEvent =(id:string) =>{
+     setState(prevState =>({
+       ...prevState,
+        events:events.filter(e => e.id != id),
+        selectedEvent: prevState.selectedEvent && prevState.selectedEvent.id ===id? null: prevState.selectedEvent,
+        isOpen : selectedEvent === null ? false: true 
+     }));
+
+  }
+  const handleSelectEvent = (event:Event) => {
+    setState(prevState=>({
+        ...prevState,
+        selectedEvent:event,
+        isOpen:true
+    }));
+
+  }
+  
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventList events={events} />
+        <EventList events={events}  selectEvent={handleSelectEvent} deleteEvent={handleDeleteEvent}/>
       </Grid.Column>
       <Grid.Column width={6}>
-        <Button positive content="Create Event" onClick={handleIsOpenToggle} />
+        <Button positive content="Create Event" onClick={handleCreateFormOpen} />
         {isOpen && (
-          <EventForm
+          <EventForm key={selectedEvent?selectedEvent.id:0}
             createEvent={handleCreateEvent}
-            cancelFormOpen={handleIsOpenToggle}
+            cancelFormOpen={handleFormCancel}
+            selectedEvent = {selectedEvent}
+            updateEvent = {handleUpdateEvent}
           />
         )}
       </Grid.Column>

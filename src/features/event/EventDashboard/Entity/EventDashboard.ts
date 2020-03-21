@@ -1,13 +1,16 @@
+import {Event} from '../../EventList/Entity/EventList';
 export interface EventDashboardFromProps {
     //Events:Event[]
+   
 }
 
 export interface EventDashboardFromState {
     events:Event[]
     isOpen:boolean;
+    selectedEvent?:Event |null
 }
 
-export interface Event {
+/*export interface Event {
     id:           string;
     title:        string;
     date:         string;
@@ -24,5 +27,5 @@ export interface Attendee {
     id:       string;
     name:     string;
     photoURL: string;
-}
+}*/
 

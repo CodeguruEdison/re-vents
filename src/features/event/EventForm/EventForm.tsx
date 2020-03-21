@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useState } from "react";
+import React, { FC, FormEvent, useState, useEffect } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
 import {
   EventFormFromProp,
@@ -7,7 +7,7 @@ import {
 } from "./Entity/EventFormEntity";
 
 const EventForm: FC<EventFormFromProp> = props => {
-  const { cancelFormOpen,createEvent } = props;
+  const { cancelFormOpen, createEvent, selectedEvent,updateEvent } = props;
   const initialState: EventFormFromState = {
     event: {
       id: 0,
@@ -28,7 +28,12 @@ const EventForm: FC<EventFormFromProp> = props => {
     evt: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     evt.preventDefault();
-    createEvent(state.event);
+     if(state.event.id){
+       updateEvent(state.event)
+     }
+     else{
+      createEvent(state.event);
+     }
   };
   const handleInputChange = (e: FormEvent) => {
     var target = e.target as FormControlEventTarget;
@@ -42,7 +47,14 @@ const EventForm: FC<EventFormFromProp> = props => {
       }
     }));
   };
-
+  useEffect(() => {
+    if (selectedEvent != null) {
+      setState(prevState => ({
+        ...prevState,
+        event: selectedEvent
+      }));
+    }
+  }, [selectedEvent]);
   return (
     <Segment>
       <Form onSubmit={handleFormSubmit} autoComplete="off">
