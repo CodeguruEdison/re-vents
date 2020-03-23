@@ -94,7 +94,7 @@ body {
 
 .main.container,
 .main.segment {
-  margin-top: 2em;
+  margin-top: 10em  !important;;
 }
 
 .ui.center.aligned.segment.attendance-preview {

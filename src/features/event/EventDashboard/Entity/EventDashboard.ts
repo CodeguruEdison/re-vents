@@ -1,7 +1,7 @@
 import {Event} from '../../EventList/Entity/EventList';
 export interface EventDashboardFromProps {
     //Events:Event[]
-   
+   events:Event[]
 }
 
 export interface EventDashboardFromState {
