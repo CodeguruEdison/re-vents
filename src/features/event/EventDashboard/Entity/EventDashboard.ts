@@ -1,11 +1,17 @@
+
 import {Event} from '../../EventList/Entity/EventList';
-export interface EventDashboardFromProps {
+import {  RouteComponentProps } from "react-router-dom";
+export interface EventDashboardFromProps extends RouteComponentProps {
     //Events:Event[]
-   events:Event[]
+   events:Event[],
+   createEventAction:(event:Event)=>void,
+   deleteEvent:(eventId:string)=>void,
+   updateEvent:(event:Event)=>void,
+   createEvent:(event:Event)=>void
 }
 
 export interface EventDashboardFromState {
-    events:Event[]
+    //events:Event[]
     isOpen:boolean;
     selectedEvent?:Event |null
 }

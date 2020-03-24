@@ -1,13 +1,13 @@
 import React, { FC, Fragment } from "react";
 import EventListItem from "./EventListItem";
-import { EventListFromProps } from "./Entity/EventList";
+import { IEventListFromProps } from "./Entity/EventList";
 
-const EventList: FC<EventListFromProps> = props => {
-  const { events,selectEvent,deleteEvent } = props;
+const EventList: FC<IEventListFromProps> = props => {
+  const { events,deleteEvent } = props;
   return (
     <Fragment>
-      {events.map((event) => (
-        <EventListItem key={event.id} event={event} selectEvent={selectEvent} deleteEvent={deleteEvent}></EventListItem>
+      {events && events.map((event) => (
+        <EventListItem key={event.id} event={event}  deleteEvent={deleteEvent}></EventListItem>
       ))}
     </Fragment>
   );

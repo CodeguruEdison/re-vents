@@ -1,39 +1,46 @@
 import React, { FC, FormEvent, useState, useEffect } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
+import { Event } from "../EventList/Entity/EventList";
+import cuid from "cuid";
 import {
-  EventFormFromProp,
+  IEventFormFromProp,
   EventFormFromState,
   FormControlEventTarget
 } from "./Entity/EventFormEntity";
+import { IApplicationState } from "../../../app/store/configureStore";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import {
+  deleteEventAction,
+  updateEventAction,
+  createEventAction
+} from "../eventActions";
 
-const EventForm: FC<EventFormFromProp> = props => {
-  const { cancelFormOpen, createEvent, selectedEvent,updateEvent } = props;
+const EventForm: FC<IEventFormFromProp> = props => {
+  const { createEvent, selectedEvent, updateEvent } = props;
   const initialState: EventFormFromState = {
-    event: {
-      id: 0,
-      title: "",
-      date: "",
-      category: "",
-      description: "",
-      city: "",
-      venue: "",
-      hostedBy: "",
-      hostPhotoURL: "",
-      attendees: []
-    }
+    event: selectedEvent
   } as any;
+
   const [state, setState] = useState<EventFormFromState>(initialState);
   const { title, date, city, venue, hostedBy } = state.event;
   const handleFormSubmit = async (
     evt: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     evt.preventDefault();
-     if(state.event.id){
-       updateEvent(state.event)
-     }
-     else{
-      createEvent(state.event);
-     }
+    if (state.event.id) {
+      updateEvent(state.event);
+      props.history.push(`/events/${state.event.id}`);
+    } else {
+      const newEvent: Event = {
+        ...state.event,
+        id: cuid(),
+        hostPhotoURL: "/assets/user.png"
+      };
+      newEvent.hostedBy = "/assets/user.png";
+      createEvent(newEvent);
+      props.history.push(`/events`);
+    }
   };
   const handleInputChange = (e: FormEvent) => {
     var target = e.target as FormControlEventTarget;
@@ -107,11 +114,42 @@ const EventForm: FC<EventFormFromProp> = props => {
         <Button positive type="submit">
           Submit
         </Button>
-        <Button type="button" onClick={cancelFormOpen}>
+        <Button type="button" onClick={props.history.goBack}>
           Cancel
         </Button>
       </Form>
     </Segment>
   );
 };
-export default EventForm;
+const mapStateToProps = (
+  state: IApplicationState,
+  ownProps: IEventFormFromProp
+) => {
+  const eventId = ownProps.match.params.id;
+  let event: Event = {
+    title: "",
+    date: "",
+    category: "",
+    description: "",
+    city: "",
+    venue: "",
+    hostedBy: "",
+    hostPhotoURL: "",
+    attendees: []
+  };
+  if (eventId && state.event.events.length > 0) {
+    event = state.event.events.filter(event => event.id === eventId)[0];
+  }
+  return {
+    selectedEvent: event
+  };
+};
+const mapDispatchToProps = {
+  deleteEvent: deleteEventAction,
+  updateEvent: updateEventAction,
+  createEvent: createEventAction
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(EventForm)
+);

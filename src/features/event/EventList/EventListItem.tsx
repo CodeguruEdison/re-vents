@@ -2,10 +2,11 @@ import React, { FC } from "react";
 import { Segment, Item, List, Button, Icon } from "semantic-ui-react";
 import EventListAttending from "./EventListAttending";
 
-import { EventListItemFromProp } from "./Entity/EventList";
+import { IEventListItemFromProp } from "./Entity/EventList";
+import { Link } from "react-router-dom";
 
-const EventListItem: FC<EventListItemFromProp> = props => {
-  const { event, selectEvent, deleteEvent } = props;
+const EventListItem: FC<IEventListItemFromProp> = props => {
+  const { event,  deleteEvent } = props;
   return (
     <Segment.Group>
       <Segment>
@@ -37,14 +38,14 @@ const EventListItem: FC<EventListItemFromProp> = props => {
         <span>{event.description}</span>
         <Button
           as="a"
-          onClick={() => deleteEvent(event.id)}
+          onClick={() => deleteEvent(event.id!)}
           color="red"
           floated="right"
           content="Delete"
         ></Button>
         <Button
-          as="a"
-          onClick={() => selectEvent(event)}
+          as={Link}
+          to={`/events/${event.id}`}
           color="teal"
           floated="right"
           content="View"

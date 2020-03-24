@@ -2,16 +2,20 @@ import React, { FC, Fragment } from "react";
 import { Container } from "semantic-ui-react";
 import EventDashboard from "../../features/event/EventDashboard/EventDashboard";
 import NavBar from "../../features/nav/NavBar/NavBar";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { HomePage } from "../../features/home/HomePage";
-import { EventDetailedPage } from "../../features/event/EventDetailed/EventDetailed";
+
 import { PeopleDashboard } from "../../features/user/PeopleDashboard/PeopleDashboard";
 import { SettingDashboard } from "../../features/user/Settings/SettingDashboard";
 import EventForm from "../../features/event/EventForm/EventForm";
-import { IRouteConfig } from "./Entitty/LayoutEntity";
+//import { IRouteConfig } from "./Entitty/LayoutEntity";
+import EventDetailedPage from "../../features/event/EventDetailed/EventDetailedPage";
+import withScrollTop from "../common/util/ScrollToTop";
+import { IAppProps } from "./Entitty/LayoutEntity";
 
-const App: FC = () => {
-  const routes: IRouteConfig[] = [
+
+const App: FC<IAppProps> = (props) => {
+ /* const routes: IRouteConfig[] = [
     {
       path: "/events",
       component: EventDashboard,
@@ -57,10 +61,10 @@ const App: FC = () => {
         <route.component {...props} routes={route.routes} exact={route.exact} />
       )}
     />
-  );
+  );*/
   return (
     <Fragment>
-  <Switch>
+     
       <Route path="/" component={HomePage} exact={true} />
       <Route
         path="/(.+)"
@@ -68,6 +72,7 @@ const App: FC = () => {
           <Fragment>
             <NavBar />
             <Container className="main">
+            <Switch  key={props.location.key}>
               <Route path="/events" component={EventDashboard} exact={true} />
               <Route
                 path="/events/:id"
@@ -85,14 +90,15 @@ const App: FC = () => {
                 component={SettingDashboard}
                 
               />
-              <Route path="/createEvent" component={EventForm} exact={true} />
+              <Route path={["/createEvent","/manage/:id"]} component={EventForm} exact={true} />
+              </Switch>
             </Container>
           </Fragment>
         )}
       />
-      </Switch>
+   
     </Fragment>
   );
 };
 
-export default App;
+export default withRouter(withScrollTop(App));

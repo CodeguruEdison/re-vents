@@ -4,18 +4,18 @@ export interface  EventListAttendeFromProps {
 export interface EventListAttendeFromState {
     
 }
-export interface EventListFromProps {
+export interface IEventListFromProps {
     events:Event[];
-    selectEvent:(event:Event) => void;
+    //selectEvent:(event:Event) => void;
     deleteEvent:(id:string) => void;
 }
-export interface EventListItemFromProp {
+export interface IEventListItemFromProp {
     event:Event
-    selectEvent:(event:Event)=>void;
+    //selectEvent:(event:Event)=>void;
     deleteEvent:(id:string) => void;
 }
 export interface Event {
-    id:           string;
+    id?:           string;
     title:        string;
     date:         string;
     category:     string;

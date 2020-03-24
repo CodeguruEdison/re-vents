@@ -28,11 +28,11 @@ const NavBar: FC<NavBarFromProps> = props => {
   return (
     <Menu inverted fixed="top">
       <Container>
-        <Menu.Item as={NavLink} to="/" header>
+        <Menu.Item as={NavLink} to="/" header exact={true}>
           <img src="/assets/logo.png" alt="logo" />
           Re-vents
         </Menu.Item>
-        <Menu.Item name="Events" as={NavLink} to="/events" />
+        <Menu.Item name="Events" as={NavLink} to="/events" exact={true} />
         <Menu.Item>
           <Button
             as={Link}
