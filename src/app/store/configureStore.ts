@@ -5,6 +5,7 @@ import {composeWithDevTools } from 'redux-devtools-extension';
 
 export interface IApplicationState {
     event:IEventState
+   form:any
 }
 export  function configureStore(): Store<IApplicationState> {
     const store = createStore(rootReducer,composeWithDevTools());

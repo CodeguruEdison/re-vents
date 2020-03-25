@@ -1,6 +1,7 @@
 import React, { FC, FormEvent, useState, useEffect } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { Event } from "../EventList/Entity/EventList";
+import {reduxForm,Field,InjectedFormProps} from 'redux-form';
 import cuid from "cuid";
 import {
   IEventFormFromProp,
@@ -15,14 +16,15 @@ import {
   updateEventAction,
   createEventAction
 } from "../eventActions";
+import TextInput from "../../../app/common/form/TextInput";
 
-const EventForm: FC<IEventFormFromProp> = props => {
+const EventForm: FC<IEventFormFromProp & InjectedFormProps<{}, IEventFormFromProp>> = props => {
   const { createEvent, selectedEvent, updateEvent } = props;
   const initialState: EventFormFromState = {
     event: selectedEvent
   } as any;
 
-  const [state, setState] = useState<EventFormFromState>(initialState);
+  const [state, setState] = useState<EventFormFromState >(initialState);
   const { title, date, city, venue, hostedBy } = state.event;
   const handleFormSubmit = async (
     evt: FormEvent<HTMLFormElement>
@@ -65,15 +67,17 @@ const EventForm: FC<IEventFormFromProp> = props => {
   return (
     <Segment>
       <Form onSubmit={handleFormSubmit} autoComplete="off">
-        <Form.Field>
+       {/* <Form.Field>
           <label>Event Title</label>
-          <input
+          <TextInput
             value={title}
             name="title"
             placeholder="First Title"
             onChange={handleInputChange}
           />
-        </Form.Field>
+        
+  </Form.Field>*/}
+        <Field name="title" value={title} component={TextInput} placeholder='Event Title'> </Field>
         <Form.Field>
           <label>Event Date</label>
           <input
@@ -84,6 +88,7 @@ const EventForm: FC<IEventFormFromProp> = props => {
             onChange={handleInputChange}
           />
         </Form.Field>
+        *
         <Form.Field>
           <label>City</label>
           <input
@@ -150,6 +155,14 @@ const mapDispatchToProps = {
   createEvent: createEventAction
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EventForm)
-);
+
+const form = reduxForm<{}, IEventFormFromProp>({
+  form: 'eventForm' // a unique identifier for this form
+})(EventForm)
+
+//export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(form));
+
+
+
+  //export default connect(mapStateToProps,mapDispatchToProps)(reduxForm({form:'eventForm'})(EventForm))
