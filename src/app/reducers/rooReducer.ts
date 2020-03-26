@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 import { IApplicationState } from '../store/configureStore';
 import {reducer as formReducer} from 'redux-form';
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<IApplicationState>({
    
     event:eventReducer,
     form:formReducer
