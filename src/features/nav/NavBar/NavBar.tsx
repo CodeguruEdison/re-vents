@@ -1,47 +1,52 @@
-import React, { FC, useState } from "react";
-import { INavBarFromProps, NavBarFromState } from "./Entity/NavBarEntity";
+import React, { FC } from "react";
+import { INavBarFromProps } from "./Entity/NavBarEntity";
 import { Menu, Container, Button } from "semantic-ui-react";
-import { NavLink, Link,withRouter } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import SignedOutMenus from "../Menu/SignedOutMenus";
 import SignendInMenus from "../Menu/SignendInMenus";
 import { connect } from "react-redux";
-import {  openModalAction } from "../../modals/modalActions";
+import { openModalAction } from "../../modals/modalActions";
+import { IApplicationState } from "../../../app/store/configureStore";
 
-const NavBar: FC<INavBarFromProps> = props => {
-  const {history,openModal} =props;
-  const initialState: NavBarFromState = {
-    authenticated: false
-  };
+import {LogoutAction} from '../../auth/authActions';
+const NavBar: FC<INavBarFromProps> = (props) => {
+  const { history, openModal,logout,auth } = props;
+  const {authenticated,currentUser} = auth;
+ 
+ /* const initialState: NavBarFromState = {
+    authenticated: false,
+  };*/
   const handleSignIn = () => {
-    
-    openModal({ modalType:'LoginModal',
+    openModal({
+      modalType: "LoginModal",
       modalProps: {
-        open:true
-      }
-  });
+        open: true,
+      },
+    });
     /*setState(prevState => ({
       ...prevState,
       authenticated: true
     }));*/
-    
   };
-  const handleRegister =() =>{
-    openModal({ modalType:'RegisterModal',
+  const handleRegister = () => {
+    openModal({
+      modalType: "RegisterModal",
       modalProps: {
-        open:true
-      }
-  });
-   // openModal('RegisterModal')
-  }
-  const handleSignOut = () => {
-    setState(prevState => ({
-      ...prevState,
-      authenticated: false
-    }));
-    history.push('/');
+        open: true,
+      },
+    });
+    // openModal('RegisterModal')
   };
-  const [state, setState] = useState<NavBarFromState>(initialState);
-  const { authenticated } = state;
+  const handleSignOut = () => {
+    logout();
+    /*setState((prevState) => ({
+      ...prevState,
+      authenticated: false,
+    }));*/
+    history.push("/");
+  };
+  //const [state, setState] = useState<NavBarFromState>(initialState);
+ 
   return (
     <Menu inverted fixed="top">
       <Container>
@@ -61,16 +66,25 @@ const NavBar: FC<INavBarFromProps> = props => {
           />
         </Menu.Item>
         {authenticated ? (
-          <SignendInMenus signout={handleSignOut} />
+          <SignendInMenus signout={handleSignOut} currentUser={currentUser} />
         ) : (
-          <SignedOutMenus signIn={handleSignIn} register ={handleRegister} />
+          <SignedOutMenus signIn={handleSignIn} register={handleRegister} />
         )}
       </Container>
     </Menu>
   );
 };
 
- const mapDispatchToProps = {
-  openModal: openModalAction
+const mapDispatchToProps = {
+  openModal: openModalAction,
+  logout:LogoutAction
 };
-export default withRouter(connect(null, mapDispatchToProps) (NavBar));
+const mapStateToProps = (
+  state: IApplicationState,
+  ownProps: INavBarFromProps
+) => {
+  return {
+    auth: state.auth,
+  };
+};
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar) as any );

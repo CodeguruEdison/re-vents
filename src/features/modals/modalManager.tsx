@@ -1,6 +1,5 @@
-import React, { FC, Component, ReactType, useEffect } from "react";
+import React, {  } from "react";
 import { connect } from "react-redux";
-import { IModalManagerProps, IModal } from "./Entity/modal";
 import { IApplicationState } from "../../app/store/configureStore";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";

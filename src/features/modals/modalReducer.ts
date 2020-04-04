@@ -1,14 +1,13 @@
 import { ModalAction, ModalActionTypes } from "./modalConstant";
 import { IModalState } from "./Entity/IModalState";
-import { IModal } from "./Entity/modal";
 import { Reducer } from "redux";
 
-const initialModal: IModal = {
+/*const initialModal: IModal = {
   modalType: "",
   modalProps: {
     open: false
   }
-};
+};*/
 const initialModalState: IModalState|null = null;
 
 export const modalReducer: Reducer<IModalState|null, ModalAction> = (

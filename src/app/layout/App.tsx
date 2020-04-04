@@ -72,7 +72,7 @@ const App: FC<IAppProps> = (props) => {
         path="/(.+)"
         render={() => (
           <Fragment>
-            <NavBar />
+            <NavBar  />
             <Container className="main">
             <Switch  key={props.location.key}>
               <Route path="/events" component={EventDashboard} exact={true} />
