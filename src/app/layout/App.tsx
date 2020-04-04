@@ -12,6 +12,8 @@ import EventForm from "../../features/event/EventForm/EventForm";
 import EventDetailedPage from "../../features/event/EventDetailed/EventDetailedPage";
 import withScrollTop from "../common/util/ScrollToTop";
 import { IAppProps } from "./Entitty/LayoutEntity";
+import  ModalManager  from "../../features/modals/modalManager";
+import testComponent from "../../features/testarea/testComponent";
 
 
 const App: FC<IAppProps> = (props) => {
@@ -64,7 +66,7 @@ const App: FC<IAppProps> = (props) => {
   );*/
   return (
     <Fragment>
-     
+     <ModalManager ></ModalManager>
       <Route path="/" component={HomePage} exact={true} />
       <Route
         path="/(.+)"
@@ -91,7 +93,10 @@ const App: FC<IAppProps> = (props) => {
                 
               />
               <Route path={["/createEvent","/manage/:id"]} component={EventForm} exact={true} />
+
+              <Route path='/test' component={testComponent} />
               </Switch>
+
             </Container>
           </Fragment>
         )}

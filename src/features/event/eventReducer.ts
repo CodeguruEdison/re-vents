@@ -126,8 +126,10 @@ export const eventReducer: Reducer<IEventState, EventAction> = (
         events: [...state.events, action.payload.event]
       };
     }
+    default:
+      return state;
   }
-  return state;
+  //return state;
 };
 
 /*export default createReducer<IEventState, EventActionTypes, Action>(initialEventState, {

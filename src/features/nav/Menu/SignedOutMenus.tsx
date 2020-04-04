@@ -4,12 +4,12 @@ import { SignedOutMenusFromProp } from './Entity/MenuEntity'
 
 export const SignedOutMenus:FC<SignedOutMenusFromProp> = (prop) => {
 
-    const {signIn} =prop;
+    const {signIn,register} =prop;
     return (
        
         <Menu.Item position="right">
         <Button basic inverted content="Login" onClick={signIn} />
-        <Button
+        <Button onClick ={register}
           basic
           inverted
           content="Register"

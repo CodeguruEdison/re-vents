@@ -3,7 +3,7 @@ import {
   EventDashboardFromProps
   //EventDashboardFromState
 } from "./Entity/EventDashboard";
-import { Grid} from "semantic-ui-react";
+import { Grid, Button} from "semantic-ui-react";
 import EventList from "../EventList/EventList";
 //import EventForm from "../EventForm/EventForm";
 //import { Event } from "../EventList/Entity/EventList";
@@ -16,10 +16,11 @@ import {
   deleteEventAction
 } from "../eventActions";
 import { IApplicationState } from "../../../app/store/configureStore";
+import { openModalAction } from "../../modals/modalActions";
 //import { IEventState } from "../IEventState";
 
 const EventDashboard: FC<EventDashboardFromProps> = props => {
-  const { events, deleteEvent } = props;
+  const { events, deleteEvent,openModal } = props;
   console.log(events);
 
   /*const handleCreateEvent = (newEvent: Event) => {
@@ -35,6 +36,14 @@ const EventDashboard: FC<EventDashboardFromProps> = props => {
   const handleDeleteEvent = (id: string) => {
     deleteEvent(id);
   };
+  const handleOpenModal =()=>{
+    openModal({
+      modalType:'TestModal',
+      modalProps:{
+        open:true
+      }
+    })
+  }
 
   return (
     <Grid>
@@ -43,6 +52,7 @@ const EventDashboard: FC<EventDashboardFromProps> = props => {
       </Grid.Column>
       <Grid.Column width={6}>
         <h1>Activities</h1>
+        <Button content="View Modal" onClick={handleOpenModal}></Button>
       </Grid.Column>
     </Grid>
   );
@@ -52,11 +62,13 @@ const mapDispatchToProps = {
   updateEventAction,
   deleteEvent: deleteEventAction,
   updateEvent: updateEventAction,
-  createEvent: createEventAction
+  createEvent: createEventAction,
+  openModal:openModalAction
 };
 const mapStateToProps = (store: IApplicationState) => {
   return {
-    events: store.event.events
+    events: store.event.events,
+    modals: store.modals?.modal
   };
 };
 

@@ -144,3 +144,6 @@ body {
 .ui.inverted.attached.segment {
     border: none;
 }
+.dateInput {
+  margin-bottom: 10px !important;
+}

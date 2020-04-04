@@ -50,6 +50,7 @@ const EventListItem: FC<IEventListItemFromProp> = props => {
           floated="right"
           content="View"
         />
+        
       </Segment>
     </Segment.Group>
   );

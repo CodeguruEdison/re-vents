@@ -1,3 +1,4 @@
+import { IModal } from './../../../modals/Entity/modal';
 
 import {Event} from '../../EventList/Entity/EventList';
 import {  RouteComponentProps } from "react-router-dom";
@@ -7,7 +8,9 @@ export interface EventDashboardFromProps extends RouteComponentProps {
    createEventAction:(event:Event)=>void,
    deleteEvent:(eventId:string)=>void,
    updateEvent:(event:Event)=>void,
-   createEvent:(event:Event)=>void
+   createEvent:(event:Event)=>void,
+   openModal:(modal:IModal)=>void,
+   selectedmodal:IModal
 }
 
 export interface EventDashboardFromState {

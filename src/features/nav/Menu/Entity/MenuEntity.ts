@@ -4,5 +4,6 @@ export interface  SignedInMenuFromProp {
 }
 
 export interface SignedOutMenusFromProp {
-    signIn:()=>void
+    signIn:()=>void;
+    register:()=>void;
 }

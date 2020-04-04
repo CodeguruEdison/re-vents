@@ -1,3 +1,4 @@
+import { ConfiguredCombinedValidator } from 'revalidate';
 import { RouteComponentProps } from 'react-router-dom';
 import {Event} from '../../EventList/Entity/EventList';
 interface MatchParams {
@@ -10,6 +11,7 @@ export interface IEventFormFromProp extends RouteComponentProps<MatchParams> {
     createEvent:(newEvent:Event)=>void; 
     selectedEvent:Event ;
     updateEvent:(updatedEvent:Event)=>void;
+   
 }
 
 export interface EventFormFromState {

@@ -1,18 +1,17 @@
-import React, {FC} from "react";
-import {
-  Segment,
-  Form,
-  Button,
-  Grid,
-  Header
-  
-} from "semantic-ui-react";
+import React, { FC, useState, InputHTMLAttributes, SelectHTMLAttributes } from "react";
+import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
 import { Event } from "../EventList/Entity/EventList";
 import { reduxForm, Field, InjectedFormProps } from "redux-form";
+import {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  getLatLng
+} from "react-places-autocomplete";
+
 import cuid from "cuid";
 import {
   IEventFormFromProp
- // EventFormFromState,
+  // EventFormFromState,
   //FormControlEventTarget
 } from "./Entity/EventFormEntity";
 import { IApplicationState } from "../../../app/store/configureStore";
@@ -26,7 +25,15 @@ import {
 import TextInput from "../../../app/common/form/TextInput";
 import TextArea from "../../../app/common/form/TextArea";
 import SelectInput from "../../../app/common/form/SelectInput";
-
+import {
+  combineValidators,
+  composeValidators,
+  isRequired,
+  hasLengthGreaterThan
+} from "revalidate";
+import DateInput from "../../../app/common/form/DateInput";
+import moment from "moment";
+import { PlaceInput } from "../../../app/common/form/PlaceInput";
 const category = [
   { key: "drinks", text: "Drinks", value: "drinks" },
   { key: "culture", text: "Culture", value: "culture" },
@@ -41,20 +48,27 @@ const EventForm: FC<IEventFormFromProp &
     createEvent,
     updateEvent,
     handleSubmit,
-    initialValues,history
+    initialValues,
+    history,
+    invalid,
+    submitting,
+    pristine
   } = props;
 
-  /*const initialState: EventFormFromState = {
-    event: selectedEvent
+  const initialState: any = {
+    // event: selectedEvent
+    cityLatLng: {},
+    venueLatLng: {}
   } as any;
 
-  const [state, setState] = useState<EventFormFromState>(initialState);
-  */
+  const [state, setState] = useState(initialState);
+
   const event = initialValues as Event;
   const onFormSubmit = (
     values: any
     //  values:any
   ) => {
+     values.venueLatLng = state.venueLatLng;
     //console.log(values)
     if (event.id) {
       updateEvent(values);
@@ -64,14 +78,50 @@ const EventForm: FC<IEventFormFromProp &
         ...values,
         id: cuid(),
         hostPhotoURL: "/assets/user.png",
-        hostedBy:"BOB"
+        date: moment(values.date).format("MM/DD/YYYY HH:mm a"),
+        hostedBy: "BOB"
       };
       // newEvent.hostedBy = "/assets/user.png";
-      console.log(values)
+      console.log(values);
       createEvent(newEvent);
       history.push(`/events/${newEvent.id}`);
     }
   };
+  const handleCitySelect = (selectedCity: Readonly<InputHTMLAttributes<HTMLInputElement>> | Readonly<SelectHTMLAttributes<HTMLSelectElement>>) => {
+    const address:string =selectedCity.value!.toString();
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      //.then(latLng => console.log('Success', latLng))
+      .then(LatLng => {
+        //setState(...state,{city})
+        setState((prevState: any) => ({
+          ...prevState,
+          cityLatLng: LatLng
+        }));
+      })
+      .then( ()=>{
+         props.change('city',address)
+      })
+      .catch(error => console.error("Error", error));
+  };
+  const handleVenueSelect = (selectedVenue: Readonly<InputHTMLAttributes<HTMLInputElement>> | Readonly<SelectHTMLAttributes<HTMLSelectElement>>) => {
+    const address:string =selectedVenue.value!.toString();
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      //.then(latLng => console.log('Success', latLng))
+      .then(LatLng => {
+        //setState(...state,{city})
+        setState((prevState: any) => ({
+          ...prevState,
+          cityLatLng: LatLng
+        }));
+      })
+      .then( ()=>{
+         props.change('city',address)
+      })
+      .catch(error => console.error("Error", error));
+  };
+  //const handleCitySelect = selectedCity =
 
   return (
     <Grid>
@@ -98,21 +148,41 @@ const EventForm: FC<IEventFormFromProp &
               rows={3}
             />
             <Header sub color="teal" content="Event Location Details"></Header>
-            <Field name="city" component={TextInput} placeholder="Event city" />
+            <Field
+              name="city"
+              component={PlaceInput}
+              placeholder="Event city"
+              options={{types:['(cities)']}}
+              onSelect={handleCitySelect}
+            />
             <Field
               name="venue"
-              component={TextInput}
+              component={PlaceInput}
               placeholder="Event Venue"
+              option={{
+                location: new google.maps.LatLng(state.cityLatLng),
+                radius:1000,
+                types:['establishment']
+              }}
+              onSelect={handleVenueSelect}
             />
-            <Field name="date" component={TextInput} placeholder="Event Date" />
+            <Field name="date" component={DateInput} placeholder="Event Date" />
 
-            <Button positive type="submit">
+            <Button
+              positive
+              type="submit"
+              disabled={invalid || submitting || pristine}
+            >
               Submit
             </Button>
-            <Button type="button" onClick={event.id 
-                ? ()=> history.push(`/events/${event.id}`)
-                : ()=> history.push('/events')
-              }>
+            <Button
+              type="button"
+              onClick={
+                event.id
+                  ? () => history.push(`/events/${event.id}`)
+                  : () => history.push("/events")
+              }
+            >
               Cancel
             </Button>
           </Form>
@@ -139,9 +209,22 @@ const mapDispatchToProps = {
   updateEvent: updateEventAction,
   createEvent: createEventAction
 };
-
+const validate = combineValidators({
+  title: isRequired({ message: "The Event title is required" }),
+  category: isRequired({ message: "The category is required" }),
+  description: composeValidators(
+    isRequired({ message: " Please enter a description" }),
+    hasLengthGreaterThan(4)({
+      message: "Description needs to be at least 5 characters"
+    })
+  )(),
+  city: isRequired("city"),
+  venue: isRequired("venue"),
+  date: isRequired("date")
+});
 const form = reduxForm<{}, IEventFormFromProp>({
-  form: "eventForm" // a unique identifier for this form
+  form: "eventForm", // a unique identifier for this form
+  validate: validate
 })(EventForm);
 
 //export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventForm));
