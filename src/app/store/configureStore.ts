@@ -1,19 +1,23 @@
 import { IAuthState } from './../../features/auth/Entity/authEntity';
 import { IModalState } from './../../features/modals/Entity/IModalState';
 import { IEventState } from './../../features/event/IEventState';
-import { createStore, Store  } from "redux"
+import { createStore, Store,applyMiddleware  } from "redux"
 
 import {composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from '../reducers/rootReducer';
-
+import thunk from 'redux-thunk'
+import { IAsyncState } from '../../features/async/Entity/asyncEntity';
 export interface IApplicationState {
-    event:IEventState,
+    readonly event:IEventState,
     form:any,
     modals:IModalState | null ,
-    auth:IAuthState 
+    auth:IAuthState ,
+    async:IAsyncState 
    
 }
 export  function configureStore(): Store<IApplicationState> {
-    const store = createStore(rootReducer,composeWithDevTools());
+    const middlewares =[thunk]
+    const composedEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
+    const store = createStore(rootReducer,composedEnhancer);
     return store;
   }

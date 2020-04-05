@@ -5,7 +5,14 @@ export enum EventActionTypes {
   UPDATE_EVENT = "EVENTS/UPDATE_EVENT",
   DELETE_EVENT = "EVENTS/DELETE_EVENT",
   GETALLEVENTS = "EVENTS/GET_ALL",
-  GETSINGLE_EVENT = "EVENTS/GETSINGLE"
+  GETSINGLE_EVENT = "EVENTS/GETSINGLE",
+  EVENT_LOADING ="EVENTS/LOADING"
+}
+export interface IEventLoadingAction {
+  type:EventActionTypes.EVENT_LOADING;
+   payload :{
+      loading:boolean;
+   }
 }
 
 export interface IEventGetAllAction {
