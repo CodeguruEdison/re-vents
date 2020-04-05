@@ -17,10 +17,11 @@ import {
 } from "../eventActions";
 import { IApplicationState } from "../../../app/store/configureStore";
 import { openModalAction } from "../../modals/modalActions";
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 //import { IEventState } from "../IEventState";
 
 const EventDashboard: FC<EventDashboardFromProps> = props => {
-  const { events, deleteEvent,openModal } = props;
+  const { events, deleteEvent,openModal,loading } = props;
   console.log(events);
 
   /*const handleCreateEvent = (newEvent: Event) => {
@@ -44,8 +45,11 @@ const EventDashboard: FC<EventDashboardFromProps> = props => {
       }
     })
   }
-
+ if(loading){
+    return <LoadingComponent inverted={true}/> 
+ }
   return (
+  
     <Grid>
       <Grid.Column width={10}>
         <EventList events={events} deleteEvent={handleDeleteEvent} />
@@ -55,6 +59,7 @@ const EventDashboard: FC<EventDashboardFromProps> = props => {
         <Button content="View Modal" onClick={handleOpenModal}></Button>
       </Grid.Column>
     </Grid>
+   
   );
 };
 const mapDispatchToProps = {
@@ -68,7 +73,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (store: IApplicationState) => {
   return {
     events: store.event.events,
-    modals: store.modals?.modal
+    modals: store.modals?.modal,
+    loading: store.async.loading
   };
 };
 

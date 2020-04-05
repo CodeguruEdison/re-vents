@@ -10,3 +10,7 @@ export interface IRouteConfig extends RouteProps {
 export interface IAppProps extends RouteComponentProps {
     
 }
+
+export interface ILoadingProps {
+    inverted:boolean
+}

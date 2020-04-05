@@ -10,7 +10,8 @@ export interface EventDashboardFromProps extends RouteComponentProps {
    updateEvent:(event:Event)=>void,
    createEvent:(event:Event)=>void,
    openModal:(modal:IModal)=>void,
-   selectedmodal:IModal
+   selectedmodal:IModal,
+   loading:boolean
 }
 
 export interface EventDashboardFromState {
