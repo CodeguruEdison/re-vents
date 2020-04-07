@@ -16,6 +16,7 @@
     "cuid": "^2.1.8",
     "date-fns": "^2.11.1",
     "e": "0.0.4",
+    "firebase": "^7.13.2",
     "google-maps-react": "^2.0.2",
     "moment": "^2.24.0",
     "react": "^16.13.1",
@@ -29,6 +30,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
+    "redux-firestore": "^0.13.0",
     "redux-form": "^8.3.1",
     "redux-modal": "^4.0.0",
     "redux-thunk": "^2.3.0",
@@ -61,6 +63,7 @@
   },
   "devDependencies": {
     "@types/date-fns": "^2.6.0",
+    "@types/firebase": "^3.2.1",
     "@types/google-maps-react": "^2.0.4",
     "@types/react": "^16.9.25",
     "@types/react-datepicker": "^2.11.0",

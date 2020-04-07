@@ -9,12 +9,32 @@ import { Provider } from "react-redux";
 import { configureStore } from "./app/store/configureStore";
 import { getAllEvents } from "./features/event/eventActions";
 import ReduxToastr from "react-redux-toastr";
+
+import firebase from './app/config/firebase';
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 const store = configureStore();
 store.dispatch<any>(getAllEvents());
+export interface IRRfConfig {
+  userProfile:string,
+  attachAuthIsReady:boolean,
+  useFireStoreForProfile:boolean
+}
+const rrfConfig:IRRfConfig = {
+  userProfile:'users',
+  attachAuthIsReady:true,
+  useFireStoreForProfile:true
+}
+
+const rrfProps = {
+  firebase,
+   config: rrfConfig,
+   dispatch: store.dispatch
+}
 //store.dispatch(Dispatch<any>(loadEvents()));
 
 ReactDOM.render(
   <Provider store={store}>
+  <ReactReduxFirebaseProvider {...rrfProps}>
     <BrowserRouter>
       <ReduxToastr
         timeOut={4000}
@@ -29,6 +49,7 @@ ReactDOM.render(
       />
       <App />
     </BrowserRouter>
+    </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById("root")
 );
