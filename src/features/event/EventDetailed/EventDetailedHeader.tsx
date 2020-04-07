@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Segment, Item, Header, Button, Image } from "semantic-ui-react";
 import { IEventDetailedHeaderProp } from "./Entity/EventDetailedEntity";
 import { Link } from "react-router-dom";
-
+import {format,parseISO} from 'date-fns';
 export const EventDetailedHeader: FC<IEventDetailedHeaderProp> = (props) => {
     const {event} = props; 
   const eventImageStyle = {
@@ -29,7 +29,7 @@ export const EventDetailedHeader: FC<IEventDetailedHeaderProp> = (props) => {
                   content={event.title}
                   style={{ color: "white" }}
                 />
-                <p>{event.date}</p>
+                <p>{ event.date && format(parseISO(event.date),'EEEE do LLLL')} </p>
                 <p>
                   Hosted by <strong>{event.hostedBy}</strong>
                 </p>

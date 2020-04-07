@@ -20,11 +20,11 @@ export interface IMeta {
 
 export const PlaceInput: FC<IPlaceInputProps> = props => {
   const {
-    input: { value, onChange, onBlur },
-    options,
+    input: { value, onChange },
+   // options,
     placeholder,
     meta: { touched, error },
-    multiple,
+  //  multiple,
     onSelect
   } = props;
 

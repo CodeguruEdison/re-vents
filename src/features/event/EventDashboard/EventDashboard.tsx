@@ -3,7 +3,7 @@ import {
   EventDashboardFromProps
   //EventDashboardFromState
 } from "./Entity/EventDashboard";
-import { Grid, Button} from "semantic-ui-react";
+import { Grid} from "semantic-ui-react";
 import EventList from "../EventList/EventList";
 //import EventForm from "../EventForm/EventForm";
 //import { Event } from "../EventList/Entity/EventList";
@@ -18,11 +18,12 @@ import {
 import { IApplicationState } from "../../../app/store/configureStore";
 import { openModalAction } from "../../modals/modalActions";
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import EventActivity from "../EventActivity/EventActivity";
 //import { IEventState } from "../IEventState";
 
 const EventDashboard: FC<EventDashboardFromProps> = props => {
-  const { events, deleteEvent,openModal,loading } = props;
-  console.log(events);
+  const { events, deleteEvent,/*openModal,*/loading } = props;
+  //console.log(events);
 
   /*const handleCreateEvent = (newEvent: Event) => {
     newEvent.id = cuid();
@@ -37,14 +38,14 @@ const EventDashboard: FC<EventDashboardFromProps> = props => {
   const handleDeleteEvent = (id: string) => {
     deleteEvent(id);
   };
-  const handleOpenModal =()=>{
+  /*const handleOpenModal =()=>{
     openModal({
       modalType:'TestModal',
       modalProps:{
         open:true
       }
     })
-  }
+  }*/
  if(loading){
     return <LoadingComponent inverted={true}/> 
  }
@@ -55,8 +56,8 @@ const EventDashboard: FC<EventDashboardFromProps> = props => {
         <EventList events={events} deleteEvent={handleDeleteEvent} />
       </Grid.Column>
       <Grid.Column width={6}>
-        <h1>Activities</h1>
-        <Button content="View Modal" onClick={handleOpenModal}></Button>
+      
+        <EventActivity></EventActivity>
       </Grid.Column>
     </Grid>
    

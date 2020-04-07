@@ -5,6 +5,8 @@ import EventListAttending from "./EventListAttending";
 import { IEventListItemFromProp } from "./Entity/EventList";
 import { Link } from "react-router-dom";
 
+import {format,parseISO} from 'date-fns';
+
 const EventListItem: FC<IEventListItemFromProp> = props => {
   const { event,  deleteEvent } = props;
   return (
@@ -22,7 +24,7 @@ const EventListItem: FC<IEventListItemFromProp> = props => {
       </Segment>
       <Segment>
         <span>
-          <Icon name="clock" /> {event.date} |
+          <Icon name="clock" /> {format(parseISO(event.date),'EEEE do LLL')} at {' '} {format(parseISO(event.date),'h:mm:a')}
           <Icon name="marker" /> {event.venue}
         </span>
       </Segment>

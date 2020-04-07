@@ -4,7 +4,7 @@ import { Event } from "../EventList/Entity/EventList";
 import { reduxForm, Field, InjectedFormProps } from "redux-form";
 import {
   geocodeByAddress,
-  geocodeByPlaceId,
+ // geocodeByPlaceId,
   getLatLng
 } from "react-places-autocomplete";
 

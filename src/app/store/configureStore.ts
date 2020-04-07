@@ -12,7 +12,8 @@ export interface IApplicationState {
     form:any,
     modals:IModalState | null ,
     auth:IAuthState ,
-    async:IAsyncState 
+    async:IAsyncState ,
+    toastr:any
    
 }
 export  function configureStore(): Store<IApplicationState> {
