@@ -1,15 +1,15 @@
 import React, { FC } from "react";
 import { Menu, Dropdown, Image } from "semantic-ui-react";
-import { SignedInMenuFromProp } from "./Entity/MenuEntity";
+import { ISignedInMenuFromProp } from "./Entity/MenuEntity";
 import { Link } from "react-router-dom";
 
 
-export const SignendInMenus: FC<SignedInMenuFromProp> = prop => {
-  const { signout,currentUser } = prop;
+export const SignendInMenus: FC<ISignedInMenuFromProp> = prop => {
+  const { signout,auth} = prop;
   return (
     <Menu.Item position="right">
       <Image avatar spaced="right" src="/assets/user.png" />
-      <Dropdown pointing="top left" text={currentUser}>
+      <Dropdown pointing="top left" text={auth.email}>
         <Dropdown.Menu>
           <Dropdown.Item text="Create Event" icon="plus" />
           <Dropdown.Item text="My Events" icon="calendar" />

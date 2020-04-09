@@ -1,5 +1,6 @@
 import React, { FC, Fragment } from "react";
 import { INavBarFromProps } from "./Entity/NavBarEntity";
+import {withFirebase, WithFirebaseProps} from 'react-redux-firebase';
 import { Menu, Container, Button } from "semantic-ui-react";
 import { NavLink, Link, withRouter } from "react-router-dom";
 import SignedOutMenus from "../Menu/SignedOutMenus";
@@ -9,13 +10,14 @@ import { openModalAction } from "../../modals/modalActions";
 import { IApplicationState } from "../../../app/store/configureStore";
 
 import { LogoutAction } from "../../auth/authActions";
-const NavBar: FC<INavBarFromProps> = (props) => {
-  const { history, openModal, logout, auth } = props;
-  const { authenticated, currentUser } = auth;
-
+const NavBar: FC<INavBarFromProps & WithFirebaseProps<INavBarFromProps>> = (props) => {
+  const { history, openModal, logout, auth,firebase } = props;
+  //const {  currentUser } = auth;
+   const authenticated = auth.isLoaded && !auth.isEmpty;
   /* const initialState: NavBarFromState = {
     authenticated: false,
   };*/
+  //AuthTypes.FirebaseAuth
   const handleSignIn = () => {
     openModal({
       modalType: "LoginModal",
@@ -38,7 +40,7 @@ const NavBar: FC<INavBarFromProps> = (props) => {
     // openModal('RegisterModal')
   };
   const handleSignOut = () => {
-    logout();
+    firebase.logout();
     /*setState((prevState) => ({
       ...prevState,
       authenticated: false,
@@ -72,7 +74,7 @@ const NavBar: FC<INavBarFromProps> = (props) => {
           </Fragment>
         )}
         {authenticated ? (
-          <SignendInMenus signout={handleSignOut} currentUser={currentUser} />
+          <SignendInMenus auth={auth} signout={handleSignOut}  />
         ) : (
           <SignedOutMenus signIn={handleSignIn} register={handleRegister} />
         )}
@@ -90,9 +92,9 @@ const mapStateToProps = (
   ownProps: INavBarFromProps
 ) => {
   return {
-    auth: state.auth,
+    auth: state.firebase.auth,
   };
 };
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NavBar) as any
+  withFirebase(connect(mapStateToProps, mapDispatchToProps)(NavBar)) as any
 );

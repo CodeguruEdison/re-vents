@@ -1,8 +1,9 @@
 import { IUser } from './../../../auth/Entity/authEntity';
 
-export interface  SignedInMenuFromProp {
+export interface  ISignedInMenuFromProp {
     signout:()=>void 
-    currentUser: string
+   // currentUser: string,
+    auth:any
 }
 
 export interface SignedOutMenusFromProp {

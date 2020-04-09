@@ -1,54 +1,77 @@
+
+
+import { IRegisterProps, IAuthRegisterProps, IUser } from './Entity/authEntity';
+//import { IModalCloseAction } from './../modals/modalConstant';
+//import { getFirebase } from 'react-redux-firebase';
 import { closeModalAction } from "./../modals/modalActions";
 import { ILoginCredential, IAuthState } from "./Entity/authEntity";
-import { ActionCreator, Action, Dispatch } from "redux";
+import { ActionCreator, Action, /*Dispatch,*/ AnyAction } from "redux";
 import {
   IAuthLoginAction,
   AuthActionTypes,
   IAuthSignoutAction,
+  IAuthRegisterAction,
 } from "./authConstant";
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import firebase from "../../app/config/firebase";
 
-/*export const LoginAction1: ActionCreator<ThunkAction<
-  Promise<Action>,
-  IAuthState,
+import { SubmissionError } from "redux-form";
+import { userInfo } from 'os';
+
+
+export const RegisterUserAction: ActionCreator<ThunkAction<
+  Promise<void>,
+  any,
   void,
-  IAuthLoginAction
->> = (payload: ILoginCredential) => {
-  return (dispatch: Dispatch): Action => {
-    dispatch({
-      type: AuthActionTypes.LOGIN_USER,
-      payload: payload,
-    });
-    return dispatch(closeModalAction(payload));
+  IAuthRegisterAction
+>> = (payload: IAuthRegisterProps) => {
+  return async (
+    dispatch: ThunkDispatch<any, void, AnyAction>
+  ): Promise<void> => {
+   //const firestore = getFirestore();
+     try{
+       let createdUser = await firebase.auth().createUserWithEmailAndPassword(payload.email,payload.password);
+       console.log(createdUser);
+       await createdUser.user?.updateProfile({
+          displayName:payload.displayName
+       });
+       let newUser = {
+          displayName:payload.displayName,
+          createdAt:firebase.firestore.FieldValue.serverTimestamp()
+       };
+       await firebase.firestore().collection('users').doc(createdUser.user?.uid).set({...newUser});
+       dispatch(closeModalAction(payload));
+       
+     }
+     catch(error){
+        console.log(error);
+     }
   };
 };
-*/
-
 
 export const LoginAction: ActionCreator<ThunkAction<
-  Promise<Action>,
+  Promise<void>,
+  //void,
   IAuthState,
   void,
   IAuthLoginAction
 >> = (payload: ILoginCredential) => {
-  return async (dispatch: Dispatch): Promise<Action>  => {
+  return async (
+    dispatch: ThunkDispatch<IAuthState, void, AnyAction>
+  ): Promise<void> => {
+    // const firebase= getFirebase();
     try {
-        dispatch({
-            type: AuthActionTypes.LOGIN_USER,
-            payload: payload,
-          });
-      //const events = await fetchSampleData();
-     // dispatch({type: EventActionTypes.GETALLEVENTS, payload: {events}});
-     return dispatch(closeModalAction(payload));
-    } catch (err) {
-      console.log(err);
-      return dispatch(closeModalAction(payload));
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.password);
+    } catch (error) {
+      console.log(error);
+      throw new SubmissionError({ _error: error.message });
+      //SubmissionError(error);
     }
+    dispatch(closeModalAction(payload));
   };
 };
-
-
-
 
 export const LogoutAction: ActionCreator<IAuthSignoutAction> = () => {
   return { type: AuthActionTypes.SIGN_OUT_USER };

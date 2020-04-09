@@ -5,7 +5,7 @@ import EventListAttending from "./EventListAttending";
 import { IEventListItemFromProp } from "./Entity/EventList";
 import { Link } from "react-router-dom";
 
-import {format,parseISO} from 'date-fns';
+import {format} from 'date-fns';
 
 const EventListItem: FC<IEventListItemFromProp> = props => {
   const { event,  deleteEvent } = props;

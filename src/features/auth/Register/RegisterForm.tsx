@@ -2,13 +2,19 @@ import React, { FC } from "react";
 import { Form, Segment, Button } from "semantic-ui-react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
-
-import { IRegisterProps } from "../Entity/authEntity";
-
+import { connect } from "react-redux";
+import { IRegisterProps, IAuthRegisterProps } from "../Entity/authEntity";
+import { RegisterUserAction } from "../authActions";
 const Register: FC<IRegisterProps & InjectedFormProps<{}, IRegisterProps>> = props => {
+  const { register, handleSubmit } = props;
+  const onFormSubmit =(value:any)=>{
+     register({
+      ...value
+     })
+  }
   return (
     <div>
-      <Form size="large">
+      <Form size="large" autoComplete="off" onSubmit={handleSubmit(onFormSubmit)} >
         <Segment>
           <Field
             name="displayName"
@@ -36,8 +42,11 @@ const Register: FC<IRegisterProps & InjectedFormProps<{}, IRegisterProps>> = pro
     </div>
   );
 };
+const mapDispatchToProps = {
+ register:RegisterUserAction
+}
 const RegisterForm = reduxForm<{}, IRegisterProps>({
   form: "registerForm" // a unique identifier for this form
   //validate: validate
 })(Register);
-export default RegisterForm;
+export default  connect(null,mapDispatchToProps)(RegisterForm);
