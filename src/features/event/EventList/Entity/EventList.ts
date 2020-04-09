@@ -17,7 +17,7 @@ export interface IEventListItemFromProp {
 export interface Event {
     id?:           string;
     title:        string;
-    date:         string;
+    date:         any;
     category:     string;
     description:  string;
     city:         string;

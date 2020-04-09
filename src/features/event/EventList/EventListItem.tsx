@@ -9,6 +9,7 @@ import {format,parseISO} from 'date-fns';
 
 const EventListItem: FC<IEventListItemFromProp> = props => {
   const { event,  deleteEvent } = props;
+  console.log(event.attendees);
   return (
     <Segment.Group>
       <Segment>
@@ -24,15 +25,17 @@ const EventListItem: FC<IEventListItemFromProp> = props => {
       </Segment>
       <Segment>
         <span>
-          <Icon name="clock" /> {format(parseISO(event.date),'EEEE do LLL')} at {' '} {format(parseISO(event.date),'h:mm:a')}
+          <Icon name="clock" /> 
+          {format(event.date.toDate(),'EEEE do LLL')} at {' '} 
+          {format(event.date.toDate(),'h:mm:a')}
           <Icon name="marker" /> {event.venue}
         </span>
       </Segment>
       <Segment secondary>
         <List horizontal>
           {event.attendees &&
-            event.attendees.map(attendee => (
-              <EventListAttending key={attendee.id} attendee={attendee} />
+            Object.values(event.attendees).map((attendee,index) => (
+              <EventListAttending key={index} attendee={attendee} />
             ))}
         </List>
       </Segment>

@@ -4,7 +4,7 @@ import {Event} from '../../EventList/Entity/EventList';
 import {  RouteComponentProps } from "react-router-dom";
 export interface EventDashboardFromProps extends RouteComponentProps {
     //Events:Event[]
-   events:Event[],
+   events:Event[] ,
    createEventAction:(event:Event)=>void,
    deleteEvent:(eventId:string)=>void,
    updateEvent:(event:Event)=>void,

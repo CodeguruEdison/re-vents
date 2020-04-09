@@ -24,7 +24,7 @@ const firebaseDevConfig = {
     appId: "1:536611841028:web:4d1fbe882f9a30a2640151",
     measurementId: "G-7H77REJ6WH"
  }
- const config = process.env.NODE_ENV == 'production' ? firebaseProdConfig : firebaseDevConfig;
+ const config = process.env.NODE_ENV === 'production' ? firebaseProdConfig : firebaseDevConfig;
 
  if(!firebase.apps.length){
      firebase.initializeApp(config);

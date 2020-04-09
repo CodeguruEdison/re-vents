@@ -10,6 +10,7 @@ import { IAsyncState } from '../../features/async/Entity/asyncEntity';
 
 import { reactReduxFirebase, getFirebase,ReactReduxFirebaseProvider  } from 'react-redux-firebase';
 import {reduxFirestore, getFirestore} from 'redux-firestore';
+import { ToastrState } from 'react-redux-toastr';
 
 
 export interface IApplicationState {
@@ -18,7 +19,9 @@ export interface IApplicationState {
     modals:IModalState | null ,
     auth:IAuthState ,
     async:IAsyncState ,
-    toastr:any
+    toastr:ToastrState,
+    firebase:any,
+    firestore:any
    
 }
 

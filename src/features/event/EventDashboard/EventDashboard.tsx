@@ -19,9 +19,10 @@ import { IApplicationState } from "../../../app/store/configureStore";
 import { openModalAction } from "../../modals/modalActions";
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import EventActivity from "../EventActivity/EventActivity";
+import { firestoreConnect, WithFirestoreProps } from "react-redux-firebase";
 //import { IEventState } from "../IEventState";
 
-const EventDashboard: FC<EventDashboardFromProps> = props => {
+const EventDashboard: FC<EventDashboardFromProps & WithFirestoreProps> = props => {
   const { events, deleteEvent,/*openModal,*/loading } = props;
   //console.log(events);
 
@@ -73,10 +74,13 @@ const mapDispatchToProps = {
 };
 const mapStateToProps = (store: IApplicationState) => {
   return {
-    events: store.event.events,
+    events:  store.firestore.ordered.events,
     modals: store.modals?.modal,
     loading: store.async.loading
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventDashboard);
+export default connect(
+  mapStateToProps,
+   mapDispatchToProps
+)(firestoreConnect([{collection:'events'}])(EventDashboard));
