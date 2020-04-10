@@ -1,20 +1,21 @@
 import React, { FC, useState } from "react";
 import { ILoginProps } from "../Entity/authEntity";
-import { Form, Segment, Button, Label } from "semantic-ui-react";
+import { Form, Segment, Button, Label, Divider } from "semantic-ui-react";
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import { LoginAction } from "../authActions";
 import { connect } from "react-redux";
+import { SocialLogin } from "../Socialogin/SocialLogin";
 
-export interface ILoginState {
-  Loginerror: string | null;
+export interface IErrorState {
+  formerror: string | null;
 }
 export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
   props
 ) => {
   const { login, handleSubmit } = props;
-  const [state, setState] = useState<ILoginState>({ Loginerror: null });
-    const onFormSubmit = (value: any) => {
+  const [state, setState] = useState<IErrorState>({ formerror: null });
+  const onFormSubmit = (value: any) => {
     login({
       currentUser: value.email,
       authenticated: true,
@@ -23,12 +24,12 @@ export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
     }).catch((error) => {
       if (error && Object.prototype.hasOwnProperty.call(error, "errors")) {
         // error = (props.error! as any).errors!._error;
-        setState({ Loginerror: error.errors._error });
+        setState({ formerror: error.errors._error });
       }
-      console.log(Loginerror);
+      console.log(formerror);
     });
   };
-  const { Loginerror } = state;
+  const { formerror } = state;
   return (
     <Form size="large" onSubmit={handleSubmit(onFormSubmit)} autoComplete="off">
       <Segment>
@@ -44,14 +45,16 @@ export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
           type="password"
           placeholder="password"
         />
-        {Loginerror && (
+        {formerror && (
           <Label basic color="red">
-            {Loginerror}
+            {formerror}
           </Label>
         )}
         <Button fluid size="large" color="teal">
           Login
         </Button>
+        <Divider horizontal> Or</Divider>
+        <SocialLogin />
       </Segment>
     </Form>
   );

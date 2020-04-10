@@ -29,3 +29,6 @@ export interface IAuthRegisterProps {
    email:string,
    password:string
 }
+export interface ISocialLogin{
+  
+}
