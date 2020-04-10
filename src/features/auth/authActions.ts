@@ -57,9 +57,22 @@ export const SocialLoginAction: ActionCreator<ThunkAction<
     try {
       dispatch(closeModalAction(payload));
       const provider = getSocialLoginProvider(payload.selectedProvider);
-      const result=await firebase.auth().signInWithPopup(provider);
-      var user = result.user;
-       console.log(user);
+      const userCred=await firebase.auth().signInWithPopup(provider);
+       if(userCred.additionalUserInfo?.isNewUser){
+          await firebase
+          .firestore().collection("users")
+          .doc(userCred.user?.uid)
+          .set(
+            {
+               displayName: userCred.user?.displayName,
+               photoURL: userCred.user?.photoURL,
+               createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            }
+          );
+           console.log('profile created');
+       }
+      
+     console.log(userCred);
     } catch (error) {
       console.log(error);
      // throw new SubmissionError({ _error: error.message });

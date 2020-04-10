@@ -11,7 +11,8 @@ import { IApplicationState } from "../../../app/store/configureStore";
 
 import { LogoutAction } from "../../auth/authActions";
 const NavBar: FC<INavBarFromProps & WithFirebaseProps<INavBarFromProps>> = (props) => {
-  const { history, openModal, logout, auth,firebase } = props;
+  const { history, openModal, logout, auth,firebase,profile } = props;
+  
   //const {  currentUser } = auth;
    const authenticated = auth.isLoaded && !auth.isEmpty;
   /* const initialState: NavBarFromState = {
@@ -74,7 +75,7 @@ const NavBar: FC<INavBarFromProps & WithFirebaseProps<INavBarFromProps>> = (prop
           </Fragment>
         )}
         {authenticated ? (
-          <SignendInMenus auth={auth} signout={handleSignOut}  />
+          <SignendInMenus profile={profile} signout={handleSignOut}  />
         ) : (
           <SignedOutMenus signIn={handleSignIn} register={handleRegister} />
         )}
@@ -93,6 +94,7 @@ const mapStateToProps = (
 ) => {
   return {
     auth: state.firebase.auth,
+    profile:state.firebase.profile
   };
 };
 export default withRouter(

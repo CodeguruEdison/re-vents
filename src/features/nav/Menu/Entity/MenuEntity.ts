@@ -3,7 +3,8 @@ import { IUser } from './../../../auth/Entity/authEntity';
 export interface  ISignedInMenuFromProp {
     signout:()=>void 
    // currentUser: string,
-    auth:any
+    //auth:any
+    profile:any
 }
 
 export interface SignedOutMenusFromProp {

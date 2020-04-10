@@ -6,9 +6,12 @@ import { WithFirebaseProps, ExtendedAuthInstance } from 'react-redux-firebase';
 export interface INavBarFromProps extends RouteComponentProps<{}>{
     openModal:(modal:IModal)=>void;
   // auth:ExtendedAuthInstance
-     auth:any,
+     auth:any;
     logout:()=>void;
+    profile:any
+    
 }
 export interface NavBarFromState {
     authenticated :boolean
 }
+

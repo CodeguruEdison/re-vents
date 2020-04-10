@@ -19,12 +19,14 @@ const store = configureStore();
 export interface IRRfConfig {
   userProfile:string,
   attachAuthIsReady:boolean,
-  useFirestoreForProfile:boolean
+  useFirestoreForProfile:boolean,
+  updateProfileOnLogin:boolean
 }
 const rrfConfig:IRRfConfig = {
   userProfile:'users',
   attachAuthIsReady:true,
-  useFirestoreForProfile:true
+  useFirestoreForProfile:true,
+  updateProfileOnLogin:false
 }
 
 const rrfProps = {
