@@ -1,13 +1,17 @@
+import { SocialProviderEnum } from './../authConstant';
+import { IAuthSocialLoginAction } from "../authConstant";
 
 export interface ILoginProps {
 
   login:(cred:ILoginCredential)=>Promise<void>; 
+  sociallogin:(socialLoginPayload:ISocialLoginPayload)=>Promise<void>;
   //email:string,
   //password:string
 }
 
 export interface IRegisterProps{
   register:(cred:IAuthRegisterProps)=>Promise<void>;
+  sociallogin:(socialLoginPayload:ISocialLoginPayload)=>Promise<void>;
 }
 
 export interface ILoginCredential {
@@ -30,5 +34,8 @@ export interface IAuthRegisterProps {
    password:string
 }
 export interface ISocialLogin{
-  
+  sociallogin:(socialLoginPayload:ISocialLoginPayload)=>Promise<void>;
+}
+export interface ISocialLoginPayload{
+  selectedProvider:SocialProviderEnum
 }

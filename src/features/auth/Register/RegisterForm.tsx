@@ -4,7 +4,7 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import { connect } from "react-redux";
 import { IRegisterProps, IAuthRegisterProps } from "../Entity/authEntity";
-import { RegisterUserAction } from "../authActions";
+import { RegisterUserAction, SocialLoginAction } from "../authActions";
 import { combineValidators, isRequired } from "revalidate";
 import { IErrorState } from "../Login/LoginForm";
 import { SocialLogin } from "../Socialogin/SocialLogin";
@@ -17,7 +17,7 @@ const validate = combineValidators({
 const Register: FC<IRegisterProps & InjectedFormProps<{}, IRegisterProps>> = (
   props
 ) => {
-  const { register, handleSubmit, error, invalid, submitting } = props;
+  const { register, handleSubmit, error, invalid, submitting,sociallogin } = props;
   const [state, setState] = useState<IErrorState>({ formerror: null });
   const { formerror } = state;
   const onFormSubmit = (value: any) => {
@@ -71,7 +71,7 @@ const Register: FC<IRegisterProps & InjectedFormProps<{}, IRegisterProps>> = (
             Register
           </Button>
           <Divider horizontal> Or</Divider>
-          <SocialLogin />
+          <SocialLogin sociallogin={sociallogin} />
         </Segment>
       </Form>
     </div>
@@ -79,6 +79,7 @@ const Register: FC<IRegisterProps & InjectedFormProps<{}, IRegisterProps>> = (
 };
 const mapDispatchToProps = {
   register: RegisterUserAction,
+  sociallogin:SocialLoginAction
 };
 const RegisterForm = reduxForm<{}, IRegisterProps>({
   form: "registerForm", // a unique identifier for this form

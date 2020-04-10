@@ -3,7 +3,7 @@ import { ILoginProps } from "../Entity/authEntity";
 import { Form, Segment, Button, Label, Divider } from "semantic-ui-react";
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
-import { LoginAction } from "../authActions";
+import { LoginAction,SocialLoginAction } from "../authActions";
 import { connect } from "react-redux";
 import { SocialLogin } from "../Socialogin/SocialLogin";
 
@@ -13,7 +13,7 @@ export interface IErrorState {
 export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
   props
 ) => {
-  const { login, handleSubmit } = props;
+  const { login, handleSubmit,sociallogin } = props;
   const [state, setState] = useState<IErrorState>({ formerror: null });
   const onFormSubmit = (value: any) => {
     login({
@@ -54,7 +54,7 @@ export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
           Login
         </Button>
         <Divider horizontal> Or</Divider>
-        <SocialLogin />
+        <SocialLogin sociallogin={sociallogin} />
       </Segment>
     </Form>
   );
@@ -67,6 +67,7 @@ export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
 
 const mapDispatchToProps = {
   login: LoginAction,
+  sociallogin:SocialLoginAction
 };
 
 const LoginForm = reduxForm<{}, ILoginProps>({
