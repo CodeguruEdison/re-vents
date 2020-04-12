@@ -5,6 +5,7 @@ export enum AuthActionTypes {
   SIGN_OUT_USER = "SIGN_OUT_USER",
   REGISTER_USER = "REGISTER_USER",
   SOCIAL_LOGIN = "SCOIAL_LOGIN",
+  UPDATE_PASSWORD ='UPDATE_PASSWPRD'
 }
 export enum SocialProviderEnum {
     FaceBook,
@@ -21,6 +22,10 @@ export interface IAuthRegisterAction {
   type: AuthActionTypes.REGISTER_USER;
   payload: IRegisterProps;
 }
+export interface IAuthUpdatePasswordAction {
+   type:AuthActionTypes.UPDATE_PASSWORD,
+   payload:string
+}
 export interface IAuthSocialLoginAction {
   type: AuthActionTypes.SOCIAL_LOGIN;
   payload: { selectedProvider: SocialProviderEnum };
@@ -29,4 +34,5 @@ export type AuthAction =
   | IAuthLoginAction
   | IAuthSignoutAction
   | IAuthRegisterAction
-  | IAuthSocialLoginAction;
+  | IAuthSocialLoginAction
+  | IAuthUpdatePasswordAction;

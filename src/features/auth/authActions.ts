@@ -8,7 +8,7 @@ import {
 //import { getFirebase } from 'react-redux-firebase';
 import { closeModalAction } from "./../modals/modalActions";
 import { ILoginCredential, IAuthState } from "./Entity/authEntity";
-import { ActionCreator, Action, /*Dispatch,*/ AnyAction } from "redux";
+import { ActionCreator, /* Action,,*/Dispatch, AnyAction } from "redux";
 import {
   IAuthLoginAction,
   AuthActionTypes,
@@ -16,11 +16,14 @@ import {
   IAuthRegisterAction,
   IAuthSocialLoginAction,
   SocialProviderEnum,
+  IAuthUpdatePasswordAction,
 } from "./authConstant";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import firebase from "../../app/config/firebase";
 
-import { SubmissionError } from "redux-form";
+import { SubmissionError, reset } from "redux-form";
+
+import { toastr } from "react-redux-toastr";
 
 /*export const getSocialProvider:(firebase.auth.FacebookAuthProvider|
   firebase.auth.GoogleAuthProvider) => (selectedProvider:SocialProviderEnum):
@@ -80,6 +83,36 @@ export const SocialLoginAction: ActionCreator<ThunkAction<
   };
 };
 
+
+
+export const LoginAction: ActionCreator<ThunkAction<
+  Promise<void>,
+  //void,
+  IAuthState,
+  void,
+  IAuthLoginAction
+>> = (payload: ILoginCredential) => {
+  return async (
+    dispatch: ThunkDispatch<IAuthState, void, AnyAction>
+  ): Promise<void> => {
+    // const firebase= getFirebase();
+    try {
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.password);
+    } catch (error) {
+      console.log(error);
+      throw new SubmissionError({ _error: error.message });
+      //SubmissionError(error);
+    }
+    dispatch(closeModalAction(payload));
+  };
+};
+
+export const LogoutAction: ActionCreator<IAuthSignoutAction> = () => {
+  return { type: AuthActionTypes.SIGN_OUT_USER };
+};
+
 export const RegisterUserAction: ActionCreator<ThunkAction<
   Promise<void>,
   any,
@@ -114,31 +147,28 @@ export const RegisterUserAction: ActionCreator<ThunkAction<
     }
   };
 };
-
-export const LoginAction: ActionCreator<ThunkAction<
+export const UpdateUserPasswordAction: ActionCreator<ThunkAction<
   Promise<void>,
-  //void,
-  IAuthState,
+  any,
   void,
-  IAuthLoginAction
->> = (payload: ILoginCredential) => {
+  IAuthUpdatePasswordAction
+>> = (payload: string) => {
   return async (
-    dispatch: ThunkDispatch<IAuthState, void, AnyAction>
+    dispatch: ThunkDispatch<any, void, AnyAction>
   ): Promise<void> => {
-    // const firebase= getFirebase();
+    //const firestore = getFirestore();
+    const user =firebase.auth().currentUser;
     try {
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(payload.email, payload.password);
+        await user?.updatePassword(payload); 
+         dispatch(reset('account'));
+        return toastr.success('Success','Your password has been successfully changed');
+       //dispatch(closeModalAction());
     } catch (error) {
-      console.log(error);
-      throw new SubmissionError({ _error: error.message });
-      //SubmissionError(error);
+      
+        console.log(error);
+        throw new SubmissionError({ _error: error.message });
+      
+     
     }
-    dispatch(closeModalAction(payload));
   };
-};
-
-export const LogoutAction: ActionCreator<IAuthSignoutAction> = () => {
-  return { type: AuthActionTypes.SIGN_OUT_USER };
 };

@@ -14,6 +14,7 @@ export const Login: FC<ILoginProps & InjectedFormProps<{}, ILoginProps>> = (
   props
 ) => {
   const { login, handleSubmit,sociallogin } = props;
+  console.log(login);
   const [state, setState] = useState<IErrorState>({ formerror: null });
   const onFormSubmit = (value: any) => {
     login({

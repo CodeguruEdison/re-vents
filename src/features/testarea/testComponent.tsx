@@ -3,13 +3,15 @@ import { IModal } from "../modals/Entity/modal";
 import { Button } from "semantic-ui-react";
 import { openModalAction } from "../modals/modalActions";
 import { connect } from "react-redux";
+import { UpdateUserPasswordAction } from "../auth/authActions";
 
 export interface ITestProps {
   openModal: (modal: IModal) => void;
+  updatePassword:(payload:string)=>void;
 }
 export const testComponent: FC<ITestProps> = props => {
-  const { openModal } = props;
-  
+  const { openModal,updatePassword } = props;
+   console.log('updatePassword'+updatePassword);
   return (
     <div>
       <Button
@@ -23,7 +25,8 @@ export const testComponent: FC<ITestProps> = props => {
   );
 };
 const mapDispatchToProps = {
-   openModal:openModalAction
+   openModal:openModalAction,
+   updatePassword: UpdateUserPasswordAction
   };
 
   export default connect(null,mapDispatchToProps)(testComponent);

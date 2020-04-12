@@ -6,7 +6,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import { HomePage } from "../../features/home/HomePage";
 
 import { PeopleDashboard } from "../../features/user/PeopleDashboard/PeopleDashboard";
-import { SettingDashboard } from "../../features/user/Settings/SettingDashboard";
+import  SettingDashboard  from "../../features/user/Settings/SettingDashboard";
 import EventForm from "../../features/event/EventForm/EventForm";
 //import { IRouteConfig } from "./Entitty/LayoutEntity";
 import EventDetailedPage from "../../features/event/EventDetailed/EventDetailedPage";
