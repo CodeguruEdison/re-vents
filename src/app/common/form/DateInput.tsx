@@ -1,7 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, FocusEvent } from "react";
 import { Form, Label } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
+
 
 export interface IMeta {
   touched: boolean;
@@ -20,7 +22,7 @@ export interface IDateInputProps {
 }
 export const DateInput: FC<IDateInputProps> = props => {
   const {
-    input,
+    input: { value, onChange, onBlur },
     type,
     rows,
     placeholder,
@@ -35,12 +37,20 @@ export const DateInput: FC<IDateInputProps> = props => {
           className="dateInput"
           {...rest}
           placeholderText={placeholder}
-          selected={input.value ? new Date(input.value) : null}
-          onChange={input.onChange}
-          onBlur={input.Blur}
-          dateFormat="dd LLLL yyyy h:mm a"
-          timeFormat="HH:mm"
-          showTimeSelect
+          selected={
+            value
+              ? Object.prototype.toString.call(value) !== "[object Date]"
+                ? value.toDate()
+                : value
+              : null
+          }
+          onChange={onChange}
+          onBlur={(e: FocusEvent<HTMLInputElement>) =>
+            onBlur(e.currentTarget.value)
+          }
+          /* timeFormat="HH:mm"
+          showYearDropdown={true}
+          showTimeSelect*/
           onChangeRaw={e => e.preventDefault()}
         ></DatePicker>
 

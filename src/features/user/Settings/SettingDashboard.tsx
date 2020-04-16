@@ -7,20 +7,25 @@ import BasicPage from "./BasicPage";
 import AboutPage from "./AboutPage";
 import PhotosPage from "./PhotosPage";
 import AccountPage from "./AccountPage";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { UpdateUserPasswordAction } from "../../auth/authActions";
 import { IApplicationState } from "../../../app/store/configureStore";
+import { useFirebaseConnect } from "react-redux-firebase";
+import { updateProfileAction } from "../userAction";
 
 export const SettingDashboard: FC<ISettingDashBoardFromProp> = props => {
-  const { updatePassword, providerId } = props;
-  //console.log('updatePassword'+updatePassword);
+  const { updatePassword, providerId ,user,updateProfile} = props;
+   /*if(user.dateOfBirth){
+       user.dateOfBirth = new Date( user.dateOfBirth.seconds*1000);
+   }*/
+  console.log('updatePassword'+JSON.stringify(user));
   return (
     <Grid>
       <Grid.Column width={12}>
         <Switch>
           <Redirect exact={true} from="/settings" to="/settings/basic" />
-          <Route path="/settings/basic" component={BasicPage} />
-          <Route path="/settings/about" component={AboutPage} />
+          <Route path="/settings/basic" render ={()=>(<BasicPage initialValues={user} updateProfile={updateProfile}/>)}  />
+          <Route path="/settings/about"  render ={()=>(<AboutPage initialValues={user} updateProfile={updateProfile}/>)} />
           <Route path="/settings/photos" component={PhotosPage} />
           <Route
             path="/settings/account"
@@ -41,7 +46,8 @@ export const SettingDashboard: FC<ISettingDashBoardFromProp> = props => {
 };
 const mapDispatchToProps = {
   // openModal:openModalAction,
-  updatePassword: UpdateUserPasswordAction
+  updatePassword: UpdateUserPasswordAction,
+  updateProfile:updateProfileAction
 };
 const mapStateToProps = (
   state: IApplicationState,
@@ -49,10 +55,12 @@ const mapStateToProps = (
 ) => {
   let providerId = '' as  any;
   if (state.firebase.auth.providerData) {
-     providerId= state.firebase.auth.providerData[0].providerId;
+     providerId=  state.firebase.auth.isLoaded && state.firebase.auth.providerData[0].providerId;
+     
   }
   return {
-    providerId
+    providerId,
+    user:state.firebase.profile
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SettingDashboard);

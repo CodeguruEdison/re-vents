@@ -11,7 +11,7 @@ import { configureStore } from "./app/store/configureStore";
 import ReduxToastr from "react-redux-toastr";
 
 import firebase from './app/config/firebase';
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import { ReactReduxFirebaseProvider,authIsReady } from "react-redux-firebase";
 import { createFirestoreInstance } from 'redux-firestore'
 
 const store = configureStore();
@@ -37,7 +37,7 @@ const rrfProps = {
 }
 //store.dispatch(Dispatch<any>(loadEvents()));
 
-ReactDOM.render(
+let render= () =>ReactDOM.render(
   <Provider store={store}>
   <ReactReduxFirebaseProvider {...rrfProps}>
     <BrowserRouter>
@@ -58,6 +58,18 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
+render();
+/** To Get the Auth provider Id */
+/*authIsReady(store, 'firebase')
+  .then(() => {
+    //console.log('auth is ready')
+    render();
+  })
+ */ 
+/* store.firebaseAuthIsReady.then(()=>{
+    render;
+ })
+ */
 //store.dispatch<any>(getAllEvents());
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
