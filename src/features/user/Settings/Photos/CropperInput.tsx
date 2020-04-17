@@ -8,14 +8,11 @@ const CropperInput: FC<any> = (props: any) => {
   const cropper = useRef<any>(null);
   const { imagePreview, setImage } = props;
   const cropImage = (event: any) => {
-    console.log(cropper.current.getCroppedCanvas());
-
-    // image in dataUrl
-
+  //  console.log(cropper.current.getCroppedCanvas());
     cropper.current.getCroppedCanvas().toBlob((blob: any) => {
       setImage(blob);
     }, "image/jpeg");
-    console.log(cropper.current.getCroppedCanvas().toDataURL());
+   // console.log(cropper.current.getCroppedCanvas().toDataURL());
   };
   return (
     <Cropper
