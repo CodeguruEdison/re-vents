@@ -7,6 +7,7 @@ import { ThunkAction } from "redux-thunk";
 import { toastr } from "react-redux-toastr";
 import { getFirebase } from "react-redux-firebase";
 
+
 export const updateProfileAction: ActionCreator<ThunkAction<
   Promise<void>,
   any,

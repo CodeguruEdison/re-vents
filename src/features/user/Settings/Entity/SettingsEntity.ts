@@ -11,7 +11,7 @@ export interface IBasicPageFromProp {
    updateProfile:(user:any)=>Promise<void>;
 }
 export interface IPhotosPageFromProp {
-
+    uploadPhotos:(file: any, fileName: string)=>Promise<void>;
 }
 export interface ISettingDashBoardFromProp {
     //updatePassword :(password:string)=> Promise<void>;
