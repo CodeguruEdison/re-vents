@@ -75,7 +75,7 @@ const NavBar: FC<INavBarFromProps & WithFirebaseProps<INavBarFromProps>> = (prop
           </Fragment>
         )}
         {authenticated ? (
-          <SignendInMenus profile={profile} signout={handleSignOut}  />
+          <SignendInMenus auth={auth} profile={profile} signout={handleSignOut}  />
         ) : (
           <SignedOutMenus signIn={handleSignIn} register={handleRegister} />
         )}

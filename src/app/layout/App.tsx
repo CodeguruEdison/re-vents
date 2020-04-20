@@ -14,6 +14,7 @@ import withScrollTop from "../common/util/ScrollToTop";
 import { IAppProps } from "./Entitty/LayoutEntity";
 import  ModalManager  from "../../features/modals/modalManager";
 import testComponent from "../../features/testarea/testComponent";
+import { UserDetailedPage } from "../../features/user/UserDetailed/UserDetailedPage";
 
 
 const App: FC<IAppProps> = (props) => {
@@ -84,7 +85,7 @@ const App: FC<IAppProps> = (props) => {
               <Route path="/people" component={PeopleDashboard} exact={true} />
               <Route
                 path="/profile/:id"
-                component={EventDashboard}
+                component={UserDetailedPage}
                 exact={true}
               />
               <Route
