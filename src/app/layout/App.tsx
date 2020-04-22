@@ -14,7 +14,7 @@ import withScrollTop from "../common/util/ScrollToTop";
 import { IAppProps } from "./Entitty/LayoutEntity";
 import  ModalManager  from "../../features/modals/modalManager";
 import testComponent from "../../features/testarea/testComponent";
-import { UserDetailedPage } from "../../features/user/UserDetailed/UserDetailedPage";
+import  UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage";
 
 
 const App: FC<IAppProps> = (props) => {
