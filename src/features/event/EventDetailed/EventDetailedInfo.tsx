@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Segment, Grid, Icon, Button } from "semantic-ui-react";
 import { IEventDetailedInfoProp } from "./Entity/EventDetailedEntity";
-import {format,parseISO} from 'date-fns';
+import {format} from 'date-fns';
 export const EventDetailedInfo:FC<IEventDetailedInfoProp> = (props) => {
     const {event} =props;
   return (
@@ -27,7 +27,7 @@ export const EventDetailedInfo:FC<IEventDetailedInfoProp> = (props) => {
             </Grid.Column>
             <Grid.Column width={15}>
             { event.date && 
-              <span>{format(parseISO(event.date),'EEEE do LLL')} at {' '} {format(parseISO(event.date),'h:mm:a')}</span>
+              <span>{format(event.date.toDate(),'EEEE do LLL')} at {' '} {format(event.date.toDate(),'h:mm:a')}</span>
             }
             </Grid.Column>
           </Grid.Row>

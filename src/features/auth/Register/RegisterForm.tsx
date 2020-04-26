@@ -3,7 +3,7 @@ import { Form, Segment, Button, Label, Divider } from "semantic-ui-react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import { connect } from "react-redux";
-import { IRegisterProps, IAuthRegisterProps } from "../Entity/authEntity";
+import { IRegisterProps } from "../Entity/authEntity";
 import { RegisterUserAction, SocialLoginAction } from "../authActions";
 import { combineValidators, isRequired } from "revalidate";
 import { IErrorState } from "../Login/LoginForm";

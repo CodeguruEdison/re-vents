@@ -11,7 +11,7 @@ import { configureStore } from "./app/store/configureStore";
 import ReduxToastr from "react-redux-toastr";
 
 import firebase from './app/config/firebase';
-import { ReactReduxFirebaseProvider,authIsReady } from "react-redux-firebase";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { createFirestoreInstance } from 'redux-firestore'
 
 const store = configureStore();

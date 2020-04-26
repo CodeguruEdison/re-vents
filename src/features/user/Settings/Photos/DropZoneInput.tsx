@@ -14,7 +14,7 @@ export const DropZoneInput:FC<IDropZoneInputProps> = (props) => {
             return {...file,preview:URL.createObjectURL(file)}
         })) 
         // Do something with the files
-      }, [])
+      }, [setFiles])
       const {getRootProps, getInputProps, isDragActive} = useDropzone({
           onDrop,
           multiple:false,

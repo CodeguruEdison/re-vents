@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export const SignendInMenus: FC<ISignedInMenuFromProp> = prop => {
   const { signout,profile,auth} = prop;
-  console.log(profile);
+ 
   return (
     <Menu.Item position="right">
       <Image avatar spaced="right" src={profile.photoURL || "/assets/user.png" }/>

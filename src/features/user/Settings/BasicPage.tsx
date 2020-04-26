@@ -6,7 +6,6 @@ import TextInput from "../../../app/common/form/TextInput";
 import DateInput from "../../../app/common/form/DateInput";
 import { PlaceInput } from "../../../app/common/form/PlaceInput";
 import RadioInput from "../../../app/common/form/RadioInput";
-import moment from 'moment';
 import { addYears } from "date-fns";
 export const BasicComponent: FC<IBasicPageFromProp &
   InjectedFormProps<{}, IBasicPageFromProp>> = props => {

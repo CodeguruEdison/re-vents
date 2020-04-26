@@ -8,7 +8,7 @@ interface MatchParams {
 
 export interface IEventFormFromProp extends RouteComponentProps<MatchParams> {
    // cancelFormOpen:()=>void; 
-    createEvent:(newEvent:Event)=>void; 
+    createEvent:(newEvent:Event)=> Promise<any>; 
     selectedEvent:Event ;
     updateEvent:(updatedEvent:Event)=>void;
    

@@ -2,15 +2,6 @@ import React, { FC } from "react";
 import { IUserDetailsPageFromProp } from "./Entity/UserDetailedEntity";
 import {
   Grid,
-  Segment,
-  Item,
-  Header,
-  List,
-  Icon,
-  Button,
-  Menu,
-  Card,
-  Image,
 } from "semantic-ui-react";
 import { IApplicationState } from "../../../app/store/configureStore";
 import { connect } from "react-redux";
@@ -21,7 +12,7 @@ import UserDetailedPhotos from "./UserDetailedPhotos";
 import UserDetailedEvent from "./UserDetailedEvent";
 
 export const UserDetailedPage: FC<IUserDetailsPageFromProp> = (props) => {
-  const { auth, profile, photos } = props;
+  const { profile, photos } = props;
   console.log("photos" + photos);
   return (
     <Grid>
@@ -35,9 +26,7 @@ export const UserDetailedPage: FC<IUserDetailsPageFromProp> = (props) => {
 };
 
 const mapStateToProps = (
-  state: IApplicationState,
-  ownProps: IUserDetailsPageFromProp
-) => {
+  state: IApplicationState) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,

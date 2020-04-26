@@ -8,8 +8,8 @@ import rootReducer from '../reducers/rootReducer';
 import thunk from 'redux-thunk'
 import { IAsyncState } from '../../features/async/Entity/asyncEntity';
 
-import { reactReduxFirebase, getFirebase,ReactReduxFirebaseProvider  } from 'react-redux-firebase';
-import {reduxFirestore, getFirestore} from 'redux-firestore';
+import { getFirebase  } from 'react-redux-firebase';
+import {getFirestore} from 'redux-firestore';
 import { ToastrState } from 'react-redux-toastr';
 
 

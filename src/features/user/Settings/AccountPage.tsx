@@ -9,15 +9,12 @@ import {
   Button,
   Icon
 } from "semantic-ui-react";
-import { Field, reduxForm, InjectedFormProps, SubmissionError } from "redux-form";
+import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import {
-  createValidator,
   composeValidators,
   combineValidators,
   isRequired,
-  isAlphabetic,
-  isNumeric,
   matchesField
 } from "revalidate";
 export interface IErrorState {
@@ -35,7 +32,7 @@ const validate = combineValidators({
 });
 const Account: FC<IAccountPageFromProp &
   InjectedFormProps<{}, IAccountPageFromProp, any>> = props => {
-  const { error, invalid, submitting, updatePassword, handleSubmit ,providerId} = props;
+  const { invalid, submitting, updatePassword, handleSubmit ,providerId} = props;
   const [state, setState] = useState<IErrorState>({ formerror: null });
  
   //console.log('AccountPage'+ JSON.stringify(props));

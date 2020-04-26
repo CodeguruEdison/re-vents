@@ -8,7 +8,6 @@ import {
   getLatLng
 } from "react-places-autocomplete";
 
-import cuid from "cuid";
 import {
   IEventFormFromProp
   // EventFormFromState,
@@ -32,7 +31,6 @@ import {
   hasLengthGreaterThan
 } from "revalidate";
 import DateInput from "../../../app/common/form/DateInput";
-import moment from "moment";
 import { PlaceInput } from "../../../app/common/form/PlaceInput";
 const category = [
   { key: "drinks", text: "Drinks", value: "drinks" },
@@ -64,31 +62,30 @@ const EventForm: FC<IEventFormFromProp &
   const [state, setState] = useState(initialState);
 
   const event = initialValues as Event;
-  const onFormSubmit = (
+  const onFormSubmit = async (
     values: any
     //  values:any
   ) => {
      values.venueLatLng = state.venueLatLng;
-    //console.log(values)
-    if (event.id) {
-      updateEvent(values);
-      history.push(`/events/${event.id}`);
-    } else {
-      const newEvent: Event = {
-        ...values,
-        id: cuid(),
-        hostPhotoURL: "/assets/user.png",
-        date: moment(values.date).format("MM/DD/YYYY HH:mm a"),
-        hostedBy: "BOB"
-      };
-      // newEvent.hostedBy = "/assets/user.png";
+     try{
+      if (event.id) {
+        updateEvent(values);
+        history.push(`/events/${event.id}`);
+      } else {
       console.log(values);
-      createEvent(newEvent);
-      history.push(`/events/${newEvent.id}`);
-    }
+       const newEvent=  await createEvent(values);
+        console.log(newEvent);
+        history.push(`/events/${newEvent.id}`);
+      }
+     }
+     catch(error) {
+      console.log(error)
+     }
+    //console.log(error)
+    
   };
   const handleCitySelect = (selectedCity: Readonly<InputHTMLAttributes<HTMLInputElement>> | Readonly<SelectHTMLAttributes<HTMLSelectElement>>) => {
-    const address:string =selectedCity.value!.toString();
+    const address:any =selectedCity.value!;
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       //.then(latLng => console.log('Success', latLng))

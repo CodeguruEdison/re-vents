@@ -15,7 +15,6 @@ import { connect } from "react-redux";
 import { uploadPhotos } from "../../userAction";
 import { toastr } from "react-redux-toastr";
 import {compose} from 'redux';
-import { firestoreConnect } from "react-redux-firebase";
 import { IApplicationState } from "../../../../app/store/configureStore";
 export interface IPhoPageState {
   files: any[];
@@ -29,7 +28,7 @@ export const PhotosPage: FC<IPhotosPageFromProp> = (props) => {
     return () => {
       files.forEach((file: any) => URL.revokeObjectURL(file.preview));
     };
-  }, []);
+  }, [files]);
 
   const handleUploadImage = async () => {
     try {
@@ -130,16 +129,6 @@ const mapStateToProps = (store: IApplicationState) => {
 const mapDispatchToProp =  {
    uploadPhotos
 };
-const query =({auth}:any)=>{
-   console.log(JSON.stringify(auth));
- /* return [ {
-      collection:'users',
-      doc:auth.id,
-      subcollections:[{collection:'photos'}],
-      storeAs:'photos'
-  }
- ]*/
-}
 export default compose(
   connect(mapStateToProps, mapDispatchToProp),
   //firestoreConnect(auth=>query(auth)),

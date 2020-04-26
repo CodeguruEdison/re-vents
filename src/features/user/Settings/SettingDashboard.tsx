@@ -7,10 +7,9 @@ import BasicPage from "./BasicPage";
 import AboutPage from "./AboutPage";
 import PhotosPage from "./Photos/PhotosPage";
 import AccountPage from "./AccountPage";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { UpdateUserPasswordAction } from "../../auth/authActions";
 import { IApplicationState } from "../../../app/store/configureStore";
-import { useFirebaseConnect } from "react-redux-firebase";
 import { updateProfileAction } from "../userAction";
 
 export const SettingDashboard: FC<ISettingDashBoardFromProp> = props => {
@@ -50,9 +49,7 @@ const mapDispatchToProps = {
   updateProfile:updateProfileAction
 };
 const mapStateToProps = (
-  state: IApplicationState,
-  ownProps: ISettingDashBoardFromProp
-) => {
+  state: IApplicationState) => {
   let providerId = '' as  any;
   if (state.firebase.auth.providerData) {
      providerId=  state.firebase.auth.isLoaded && state.firebase.auth.providerData[0].providerId;

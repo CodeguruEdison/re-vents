@@ -14,7 +14,7 @@ export const ModalManager= (props:any) => {
 //export const ModalManager: FC<IModalManagerProps> = props => {
   const { currentModal } = props;
 
-  console.log(currentModal);
+  //console.log(currentModal);
   let renderedModal = null;
   if (currentModal) {
     const { modalType, modalProps } = currentModal;

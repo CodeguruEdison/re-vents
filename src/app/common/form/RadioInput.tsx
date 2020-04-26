@@ -10,7 +10,7 @@ export interface IRadioInput {
   label:string
 }
 export const RadioInput:FC<IRadioInput> = (props) => {
-     const {input,width,type,label } = props;
+     const {input,type,label } = props;
     return (
        <Form.Field>
          <div className="ui radio">

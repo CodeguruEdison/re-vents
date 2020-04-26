@@ -31,5 +31,9 @@ export interface Attendee {
     id:       string;
     name:     string;
     photoURL: string;
+    host?:boolean;
+    going?:true;
+    joinDate?:Date
+    displayName?:string;
 }
 

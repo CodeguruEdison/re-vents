@@ -11,7 +11,7 @@ import { IApplicationState } from "../../../app/store/configureStore";
 
 import { LogoutAction } from "../../auth/authActions";
 const NavBar: FC<INavBarFromProps & WithFirebaseProps<INavBarFromProps>> = (props) => {
-  const { history, openModal, logout, auth,firebase,profile } = props;
+  const { history, openModal, auth,firebase,profile } = props;
   
   //const {  currentUser } = auth;
    const authenticated = auth.isLoaded && !auth.isEmpty;
@@ -89,9 +89,7 @@ const mapDispatchToProps = {
   logout: LogoutAction,
 };
 const mapStateToProps = (
-  state: IApplicationState,
-  ownProps: INavBarFromProps
-) => {
+  state: IApplicationState) => {
   return {
     auth: state.firebase.auth,
     profile:state.firebase.profile

@@ -33,7 +33,7 @@ export const EventDetailedSideBar:FC<IEventDetailedSideBarProp> = (props) => {
             <Image size="tiny" src= {attendee.photoURL} />
             <Item.Content verticalAlign="middle">
               <Item.Header as="h3">
-                {attendee.name}
+                {attendee.displayName}
               </Item.Header>
             </Item.Content>
           </List.Item>

@@ -1,14 +1,12 @@
 import {
-  IRegisterProps,
   IAuthRegisterProps,
-  IUser,
   ISocialLoginPayload,
 } from "./Entity/authEntity";
 //import { IModalCloseAction } from './../modals/modalConstant';
 //import { getFirebase } from 'react-redux-firebase';
 import { closeModalAction } from "./../modals/modalActions";
 import { ILoginCredential, IAuthState } from "./Entity/authEntity";
-import { ActionCreator, /* Action,,*/Dispatch, AnyAction } from "redux";
+import { ActionCreator, AnyAction } from "redux";
 import {
   IAuthLoginAction,
   AuthActionTypes,
