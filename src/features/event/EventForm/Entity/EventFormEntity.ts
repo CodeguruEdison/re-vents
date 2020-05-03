@@ -11,6 +11,7 @@ export interface IEventFormFromProp extends RouteComponentProps<MatchParams> {
     createEvent:(newEvent:Event)=> Promise<any>; 
     selectedEvent:Event ;
     updateEvent:(updatedEvent:Event)=>void;
+    cancelToggle:(eventId: string,cancelled:boolean)=>void;
    
 }
 

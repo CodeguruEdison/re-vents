@@ -25,6 +25,7 @@ export interface Event {
     hostedBy:     string;
     hostPhotoURL: string;
     attendees:    Attendee[];
+    cancelled:    boolean
 }
 
 export interface Attendee {
@@ -37,3 +38,7 @@ export interface Attendee {
     displayName?:string;
 }
 
+export interface IEventCancel {
+    cancelled:boolean,
+    eventId:string
+}

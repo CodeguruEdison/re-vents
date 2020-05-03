@@ -6,7 +6,8 @@ export enum EventActionTypes {
   DELETE_EVENT = "EVENTS/DELETE_EVENT",
   GETALLEVENTS = "EVENTS/GET_ALL",
   GETSINGLE_EVENT = "EVENTS/GETSINGLE",
-  EVENT_LOADING ="EVENTS/LOADING"
+  EVENT_LOADING ="EVENTS/LOADING",
+  CANCEL_EVENT = "EVENTS/CANCEL_EVENT"
 }
 export interface IEventLoadingAction {
   type:EventActionTypes.EVENT_LOADING;
@@ -42,10 +43,18 @@ export interface IEventDeleteAction {
       eventId: string;
     };
   }
+  export interface IEventCancelAction {
+    type: EventActionTypes.CANCEL_EVENT;
+    payload: {
+      eventId: string;
+      cancelled:boolean;
+    };
+  }
   export type EventAction =
   | IEventCreateAction
   | IEventUpdateAction
   | IEventDeleteAction
   | IEventGetAllAction
+  | IEventCancelAction
   
 //export type EventActionTypes = typeof CREATE_EVENT | typeof UPDATE_EVENT | typeof DELETE_EVENT

@@ -2,6 +2,7 @@ import { Event } from "../../features/event/EventList/Entity/EventList";
 const sampleData: Event[] = [
     {
       id: "1",
+      cancelled:false,
       title: "Trip to Tower of London",
       date: "2018-03-27T18:00:00",
       category: "culture",
@@ -26,6 +27,7 @@ const sampleData: Event[] = [
     },
     {
       id: "2",
+      cancelled:false,
       title: "Trip to Punch and Judy Pub",
       date: "2018-03-28T19:00:00",
       category: "drinks",
@@ -51,3 +53,4 @@ const sampleData: Event[] = [
   ];
 
   export default sampleData;
+  

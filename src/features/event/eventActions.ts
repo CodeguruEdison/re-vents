@@ -1,3 +1,4 @@
+import { getFirestore } from 'redux-firestore';
 import { IApplicationState } from './../../app/store/configureStore';
 import { asyncActionFinish } from "./../async/asyncActions";
 import { fetchSampleData } from "./../../app/data/mockAPI";
@@ -8,6 +9,7 @@ import {
   //IEventUpdateAction,
   IEventDeleteAction,
   IEventGetAllAction,
+  IEventCancelAction,
   //EventAction,
 } from "./eventConstants";
 import { Event } from "./EventList/Entity/EventList";
@@ -16,8 +18,9 @@ import { ThunkAction } from "redux-thunk";
 import { IEventState } from "./IEventState";
 import { asyncActionStart } from "../async/asyncActions";
 import { toastr } from "react-redux-toastr";
-import { getFirebase } from "react-redux-firebase";
+import { getFirebase,useFirestore } from "react-redux-firebase";
 import { createNewEvent } from '../../app/common/util/helper';
+import { reset } from 'redux-form';
 // Action Creators
 /*export const createEventAction: ActionCreator<IEventCreateAction> = (
   event: Event
@@ -90,21 +93,67 @@ export const createEventAction: ActionCreator<ThunkAction<
 
 export const updateEventAction: ActionCreator<ThunkAction<
   void,
-  any,
+  IApplicationState,
   void,
   IEventCreateAction
 >> = (event: Event) => {
-  return async (dispatch: Dispatch):Promise<void>=> {
+  return async (dispatch: Dispatch,state):Promise<void>=> {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
     try {
-     dispatch({
+      await firestore.doc(`events/${event.id}`).update(event);
+      //await firestore.update(`events/${event.id}`,event);
+     /*dispatch({
         type: EventActionTypes.UPDATE_EVENT,
         payload: {
           event
         },
-      });
+      });*/
        toastr.success("Success!",'Event has been created');
     } catch (error) {
        toastr.error("Error", error);
+       console.log(error);
+    }
+  };
+};
+
+export const cancelToggleEventAction: ActionCreator<ThunkAction<
+  void,
+  IApplicationState,
+  void,
+  IEventCancelAction
+>> = (
+  eventId: string,
+  cancelled:boolean) => {
+  return async (dispatch: Dispatch,state):Promise<void>=> {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+     const message = cancelled
+       ? "Are you sure you want to cancel event?"
+       : "This will reactive the event, are you sure?";
+    try {
+      
+      await firestore.doc(`events/${eventId}`).update({
+        cancelled:cancelled
+      });
+      //await usefirestore.get(`events/${eventId}`);
+      //await firestore.get(`events/${eventId}`)
+     // await firestore.doc(`events/${eventId}`).get();
+      //console.log(cancelled)
+     // cancelled
+      //await firestore.doc(`events/${event.id}`).update(event);
+      //await firestore.update(`events/${event.id}`,event);
+     /*dispatch({
+        type: EventActionTypes.UPDATE_EVENT,
+        payload: {
+          event
+        },
+      });*/
+     // dispatch(reset('eventForm'));
+       toastr.success("Success!",'Event has been created');
+    } catch (error) {
+       toastr.error("Error", error);
+       console.log(error);
     }
   };
 };
